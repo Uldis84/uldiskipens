@@ -27,10 +27,13 @@ nav.scrolled .nav-name{color:var(--black);}
 nav.scrolled .nav-links a{color:var(--gray-600);}
 nav.scrolled .nav-links a:hover{color:var(--black);}
 .lang-switcher{display:flex;gap:6px;align-items:center;margin-left:8px;}
-.lang-btn{background:none;border:1px solid rgba(255,255,255,.25);border-radius:6px;cursor:pointer;padding:3px 8px;font-size:12px;color:rgba(255,255,255,.6);transition:all .2s;font-family:var(--sans);}
-.lang-btn:hover,.lang-btn.active{border-color:var(--accent);color:var(--white);background:rgba(232,68,10,.15);}
+.lang-btn{background:none;border:1px solid rgba(255,255,255,.2);border-radius:6px;cursor:pointer;padding:4px 9px;font-size:11px;font-weight:500;color:rgba(255,255,255,.55);transition:all .2s;font-family:var(--sans);display:flex;align-items:center;gap:6px;letter-spacing:.04em;}
+.lang-btn:hover,.lang-btn.active{border-color:rgba(255,255,255,.5);color:var(--white);background:rgba(255,255,255,.08);}
+.lang-btn.active{border-color:rgba(255,255,255,.45);}
 nav.scrolled .lang-btn{color:var(--gray-600);border-color:var(--gray-200);}
-nav.scrolled .lang-btn:hover,nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--accent);background:rgba(232,68,10,.08);}
+nav.scrolled .lang-btn:hover{color:var(--black);border-color:var(--gray-400);background:var(--gray-100);}
+nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);background:var(--gray-100);}
+.flag{width:18px;height:12px;border-radius:2px;overflow:hidden;flex-shrink:0;display:inline-block;vertical-align:middle;box-shadow:0 0 0 1px rgba(0,0,0,.15);}
 
 /* HERO */
 .hero{position:relative;min-height:100vh;background:var(--pr-bg);overflow:hidden;display:flex;align-items:center;justify-content:center;}
@@ -268,8 +271,8 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
     <li><a href="#contact" data-en="Contact" data-de="Kontakt">Contact</a></li>
     <li>
       <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('en',this)">&#127468;&#127463; EN</button>
-        <button class="lang-btn" onclick="setLang('de',this)">&#127465;&#127466; DE</button>
+        <button class="lang-btn active" onclick="setLang('en',this)"><svg class="flag" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="12" fill="#012169"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#fff" stroke-width="2.4"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#C8102E" stroke-width="1.5"/><path d="M9,0 V12 M0,6 H18" stroke="#fff" stroke-width="3.6"/><path d="M9,0 V12 M0,6 H18" stroke="#C8102E" stroke-width="2.2"/></svg>EN</button>
+        <button class="lang-btn" onclick="setLang('de',this)"><svg class="flag" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="4" y="0" fill="#000"/><rect width="18" height="4" y="4" fill="#DD0000"/><rect width="18" height="4" y="8" fill="#FFCE00"/></svg>DE</button>
       </div>
     </li>
   </ul>
