@@ -23,7 +23,6 @@
     --ink:#F8F9FA; --dim:rgba(248,249,250,.62); --faint:rgba(248,249,250,.36);
     --brand:#302B94;
     --s1:#8B5CF6; --s2:#6366F1; --s3:#35A5DB; --s4:#1FB8A6; --s5:#35C77E;
-    --u:#F0A93B; --j:#E8719A;
     --s1rgb:139,92,246; --s2rgb:99,102,241; --s3rgb:53,165,219;
     --s4rgb:31,184,166; --s5rgb:53,199,126;
     --gutter:#232C3C;
@@ -34,17 +33,13 @@
        line-height:1.45;-webkit-font-smoothing:antialiased;}
 
   /* Kopfleiste */
-  .bar{display:flex;align-items:center;gap:22px;padding:12px 20px;
+  .bar{display:flex;align-items:center;gap:14px;padding:12px 20px;
        border-bottom:1px solid var(--line);background:var(--deep);flex:none;flex-wrap:wrap;}
-  .meter{display:flex;align-items:center;gap:13px;flex:none;}
-  .count{font-size:34px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}
-  .count span{font-size:17px;color:var(--faint);font-weight:400;}
-  .bars{display:flex;gap:4px;}
-  .bar-i{width:22px;height:8px;border-radius:2px;background:rgba(248,249,250,.12);
-         border:1px solid var(--line);transition:background .25s;}
-  .bar-i.on{background:var(--s5);border-color:var(--s5);}
-  .wk{font-size:12px;color:var(--dim);line-height:1.35;}
-  .wk b{display:block;color:var(--ink);font-weight:500;}
+  .tabs{display:flex;gap:6px;flex:none;}
+  .tab{padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;
+       background:var(--surface);border:1px solid var(--line);color:var(--dim);}
+  .tab:hover{color:var(--ink);border-color:var(--line-strong);}
+  .tab.on{background:var(--pc);border-color:var(--pc);color:#141A26;}
   .rail{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-left:auto;}
   .drv{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:7px;
        background:var(--surface);border:1px solid var(--line);font-size:12.5px;
@@ -91,11 +86,6 @@
   .add:hover{color:var(--ink);border-color:var(--s1);}
   .addin{width:100%;background:var(--surface);border:1px solid var(--c);border-radius:7px;
          padding:9px;color:var(--ink);font-size:13px;margin-bottom:7px;}
-  .fmtrow{display:flex;gap:5px;margin-bottom:6px;}
-  .fmt{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--line-strong);color:var(--dim);}
-  .fmt:hover{color:var(--ink);}
-  .fmt.on{background:var(--c);border-color:var(--c);color:#141A26;font-weight:600;}
-  .fmthint{font-size:11px;color:var(--faint);line-height:1.45;margin-bottom:9px;}
 
   .card{background:#3E4E67;border:1px solid rgba(248,249,250,.09);border-left:3px solid var(--c);
         border-radius:8px;padding:10px 11px;margin-bottom:8px;}
@@ -134,23 +124,46 @@
   .ed-main{flex:1;min-height:0;display:flex;}
   .ed-write{flex:1;min-width:0;overflow-y:auto;display:flex;justify-content:center;}
   .ed-write textarea{width:100%;max-width:74ch;background:transparent;border:none;resize:none;
-                     color:var(--ink);font-size:19px;line-height:1.8;padding:44px 32px 30vh;outline:none;}
+                     color:var(--ink);font-size:18px;line-height:1.8;padding:30px 32px 20px;outline:none;}
   .ed-write textarea::placeholder{color:var(--faint);}
-  .ed-side{width:300px;flex:none;border-left:1px solid var(--line);background:var(--deep);
+  .ed-side{width:320px;flex:none;border-left:1px solid var(--line);background:var(--deep);
            overflow-y:auto;padding:18px;}
   .ed-side h3{font-size:12px;font-weight:600;color:var(--dim);margin:0 0 10px;}
   .ed-side .grp{margin-bottom:22px;}
   .stat{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;
         border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;}
   .stat span:first-child{color:var(--dim);}
-  .stat.warn span:last-child{color:#F0B44B;}
-  .stat.good span:last-child{color:var(--s5);}
   .ed-side .chk{padding:8px 10px;border-radius:6px;background:rgba(248,249,250,.05);
                 margin-bottom:5px;font-size:13px;line-height:1.4;}
   .ed-side .chk:hover{background:rgba(248,249,250,.11);color:var(--ink);}
   .ed-side .chk.on{background:rgba(53,165,219,.12);}
   .ed-side .next{width:100%;text-align:center;margin-bottom:7px;padding:10px;font-size:13px;}
   .ed-side .ghost{width:100%;text-align:center;padding:9px;font-size:13px;}
+
+  /* KI-Recherche */
+  .research{border-top:1px solid var(--line);flex:none;background:var(--deep);
+            max-height:38vh;display:flex;flex-direction:column;}
+  .research.collapsed{max-height:44px;}
+  .research-h{display:flex;align-items:center;gap:8px;padding:11px 20px;flex:none;}
+  .research-h b{font-size:13px;flex:1;}
+  .research-h .hint{font-size:11.5px;color:var(--faint);}
+  .research-body{padding:0 20px 16px;overflow-y:auto;min-height:0;}
+  .research-row{display:flex;gap:8px;margin-bottom:10px;}
+  .research-row input{flex:1;background:var(--surface);border:1px solid var(--line);
+                       border-radius:7px;padding:9px 12px;font-size:13.5px;color:var(--ink);}
+  .research-row button{background:var(--s3);color:#12202B;font-weight:600;font-size:13px;
+                        padding:9px 14px;border-radius:7px;white-space:nowrap;}
+  .research-row button:disabled{opacity:.5;cursor:default;}
+  .research-out{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+                padding:12px 14px;font-size:13.5px;line-height:1.65;color:var(--dim);
+                white-space:pre-wrap;margin-bottom:10px;}
+  .research-out.loading{color:var(--faint);font-style:italic;}
+  .research-insert{font-size:12px;color:var(--s3);padding:4px 0;}
+  .research-note{font-size:11.5px;color:var(--faint);line-height:1.5;margin-bottom:10px;}
+  .research-key{display:flex;gap:8px;}
+  .research-key input{flex:1;background:var(--surface);border:1px solid var(--line);
+                       border-radius:7px;padding:8px 10px;font-size:12.5px;color:var(--ink);}
+  .research-key button{font-size:12px;padding:8px 12px;border-radius:7px;background:var(--surface-2);color:var(--dim);}
 
   /* Archiv */
   .scrim{position:fixed;inset:0;background:rgba(20,26,38,.5);z-index:39;}
@@ -161,8 +174,6 @@
   .arcv-h .n{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums;}
   .arcv-h .x{margin-left:auto;font-size:12.5px;color:var(--dim);padding:6px 8px;}
   .arcv-b{flex:1;min-height:0;overflow-y:auto;padding:8px 18px 30px;}
-  .arcv-g{font-size:11.5px;color:var(--faint);margin:16px 0 7px;}
-  .arcv-g:first-child{margin-top:8px;}
   .arow{display:block;width:100%;text-align:left;padding:9px 11px;margin-bottom:6px;
         background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--s5);border-radius:7px;}
   .arow:hover{background:var(--surface-2);}
@@ -187,22 +198,19 @@
 
   @media (max-width:1100px){
     .board{grid-template-columns:repeat(5,minmax(200px,1fr));overflow-x:auto;}
-    .ed-side{width:250px;}
+    .ed-side{width:260px;}
   }
   @media (max-width:760px){
-    .ed-side{display:none;}
-    .ed-write textarea{font-size:17px;padding:24px 18px 40vh;}
+    .ed-main{flex-direction:column;}
+    .ed-side{width:100%;border-left:none;border-top:1px solid var(--line);}
+    .ed-write textarea{font-size:16px;padding:20px 18px;}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 
 <div id="app" style="visibility:hidden">
   <div class="bar">
-    <div class="meter">
-      <div class="count" id="cnt">0<span>/5</span></div>
-      <div class="bars" id="bars"></div>
-      <div class="wk"><b id="kw"></b><span id="rest"></span></div>
-    </div>
+    <div class="tabs" id="tabs"></div>
     <div class="rail" id="rail"></div>
   </div>
   <div id="linkform"></div>
@@ -224,53 +232,44 @@ const SUPABASE_ANON_KEY = 'sb_publishable_SM_ny3w1zIS-WHJwuI94wg_slnjfNpi';
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const STAGES = [
-  { name:'Ideen', c:'var(--s1)', rgb:'var(--s1rgb)', hint:'Hook zuerst',
-    checks:['Hook in einem Satz','Passt zu Editing / Self-Improvement / Content'] },
-  { name:'Scripting', c:'var(--s2)', rgb:'var(--s2rgb)', hint:'unter 60 Sek',
-    checks:['Hook sitzt in den ersten 2 Sekunden','Laut gelesen, unter 60 Sek','Schluss steht','B-Roll-Bedarf notiert'] },
-  { name:'Verfilmen', c:'var(--s3)', rgb:'var(--s3rgb)', hint:'4K, Safezone',
-    checks:['4K aufgenommen','Augen auf etwa 2/3 Höhe','Safezone frei','Ton kontrolliert','B-Roll abgedreht'] },
-  { name:'Editen', c:'var(--s4)', rgb:'var(--s4rgb)', hint:'3–5 Sek Schnitt',
-    checks:['Szenenwechsel alle 3–5 Sek','B-Roll 2–3 Sek platziert','Gleiche SFX wie sonst','Captions mittig, 2–3 Fonts','Einheitlicher Colorgrade','Vignette und Blur Edges'] },
-  { name:'Posten', c:'var(--s5)', rgb:'var(--s5rgb)', hint:'raus damit',
-    checks:['4K exportiert','Safezone im Preview geprüft','Caption und Hashtags stehen','Überall hochgeladen'] }
-];
-const FCHECKS = {
-  Carousel:{ 0:['Thema in einem Satz','Passt zur Nische'],
-             4:['Hook steht auf Slide 1','Einheitliche Farbpalette, 2–3 Fonts','Safezone auf allen Slides geprüft','Caption und Hashtags stehen','Hochgeladen'] },
-  Story:{ 0:['Thema in einem Satz','Passt zur Nische'],
-          4:['Safezone frei','Text gut lesbar','Sticker oder CTA drin','Hochgeladen'] }
+/* Zwei Projekte statt der alten Jannis-Personal-Brand-Pipeline */
+const PROJECTS = {
+  solo:       { name:'Solo-Video',           c:'var(--s3)', rgb:'var(--s3rgb)', finalLabel:'Posten' },
+  wettbewerb: { name:'Geschichtswettbewerb', c:'var(--s1)', rgb:'var(--s1rgb)', finalLabel:'Einreichen' },
 };
-const LINKS = [
-  {id:'broll',label:'B-Roll'},{id:'sfx',label:'SFX'},
-  {id:'musik',label:'Musik Packs'},{id:'assets',label:'Fonts & Presets'}
-];
-const PEOPLE=['Uldis','Jannis'], FORMATS=['Short','Carousel','Story'], WPS=2.6;
+const PROJECT_ORDER = ['solo','wettbewerb'];
 
-let state={cards:[],links:{},editLinks:false,showArchive:false};
-let open=null, editing=null, online=false;
-
-function path(c){ return c.format==='Short' ? [0,1,2,3,4,5] : [0,4,5]; }
-function nextOf(c){ const p=path(c),i=p.indexOf(c.stage); return (i>=0&&i<p.length-1)?p[i+1]:null; }
-function prevOf(c){ const p=path(c),i=p.indexOf(c.stage); return (i>0)?p[i-1]:null; }
-function checksFor(c){ const f=FCHECKS[c.format]; if(f&&f[c.stage]) return f[c.stage];
-  const st=STAGES[c.stage]; return st?st.checks:[]; }
-function weekKey(d){
-  const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
-  const day=t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-day);
-  const y0=new Date(Date.UTC(t.getUTCFullYear(),0,1));
-  return t.getUTCFullYear()+'-KW'+String(Math.ceil(((t-y0)/86400000+1)/7)).padStart(2,'0');
+function stagesFor(pid){
+  const p = PROJECTS[pid];
+  return [
+    { name:'Ideen',      c:p.c, rgb:p.rgb, hint:'Thema finden',
+      checks:['Thema/Hook in einem Satz','Grober Winkel steht'] },
+    { name:'Recherche & Skript', c:p.c, rgb:p.rgb, hint:'KI hilft recherchieren, du schreibst',
+      checks:['Recherche abgeschlossen','Skript/Storyline selbst geschrieben','Länge grob passt'] },
+    { name:'Verfilmen',  c:p.c, rgb:p.rgb, hint:'Dreh / B-Roll',
+      checks:['Hauptmaterial gedreht','B-Roll abgedreht','Ton kontrolliert'] },
+    { name:'Editen',     c:p.c, rgb:p.rgb, hint:'Schnitt',
+      checks:['Rohschnitt steht','Sounddesign/Musik drin','Colorgrade/Look fertig'] },
+    { name:p.finalLabel, c:p.c, rgb:p.rgb, hint: pid==='wettbewerb' ? 'Abgabe' : 'raus damit',
+      checks: pid==='wettbewerb'
+        ? ['Formale Vorgaben geprüft','Abgabe hochgeladen']
+        : ['Export fertig','Titel/Thumbnail stehen','Hochgeladen'] },
+  ];
 }
-const nowWeek=()=>weekKey(new Date());
+
+let state={cards:[],links:{},editLinks:false,showArchive:false,activeProject:'solo'};
+let open=null, editing=null, online=false;
+let editorAI = { open:false, loading:false, output:'', query:'' };
+
 const days=ts=>Math.floor((Date.now()-ts)/86400000);
 const words=s=>(s||'').trim()?s.trim().split(/\s+/).length:0;
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-const ARCHIVE_AFTER=7*86400000;
+const ARCHIVE_AFTER=14*86400000;
 function archived(c){
-  if(c.stage!==5) return false;
+  const st=stagesFor(c.project);
+  if(c.stage!==st.length-1) return false;
   if(c.postedAt) return (Date.now()-c.postedAt)>ARCHIVE_AFTER;
-  return c.week!==nowWeek();
+  return false;
 }
 function dstr(ts){ const d=new Date(ts);
   return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'; }
@@ -290,13 +289,21 @@ function pushLinks(){
   clearTimeout(linkTimer);
   linkTimer=setTimeout(()=>sb.from('settings').upsert({key:'links',value:state.links}),300);
 }
+let keyTimer;
+function pushKey(){
+  clearTimeout(keyTimer);
+  keyTimer=setTimeout(()=>sb.from('settings').upsert({key:'geminiKey',value:{key:state.links.__aiKey||''}}),300);
+}
 async function loadAll(){
   const {data:rows,error}=await sb.from('cards').select('id,data');
   if(error){ setConn(false,'Laden fehlgeschlagen'); return; }
   state.cards=(rows||[]).map(r=>({...r.data,id:r.id}))
+              .filter(c=>PROJECTS[c.project]) // alte Jannis-Karten ohne gültiges Projekt ausblenden
               .sort((a,b)=>(b.created||0)-(a.created||0));
   const {data:st}=await sb.from('settings').select('value').eq('key','links').maybeSingle();
   state.links=(st&&st.value)||{};
+  const {data:kk}=await sb.from('settings').select('value').eq('key','geminiKey').maybeSingle();
+  state.links.__aiKey = (kk&&kk.value&&kk.value.key) || '';
   setConn(true);
 }
 function typing(){
@@ -311,9 +318,10 @@ function subscribe(){
         if(editing===p.old.id) closeEditor();
       } else {
         const c={...p.new.data,id:p.new.id};
+        if(!PROJECTS[c.project]) return;
         const i=state.cards.findIndex(x=>x.id===c.id);
         if(i>=0){
-          if(editing===c.id && typing()) return;   // laufende Eingabe nicht überschreiben
+          if(editing===c.id && typing()) return;
           state.cards[i]=c;
         } else {
           state.cards.unshift(c);
@@ -323,7 +331,10 @@ function subscribe(){
       render(); if(editing) renderEditor();
     })
     .on('postgres_changes',{event:'*',schema:'public',table:'settings'},p=>{
-      if(p.new && p.new.key==='links' && !state.editLinks){ state.links=p.new.value||{}; render(); }
+      if(p.new && p.new.key==='links' && !state.editLinks){
+        const aiKey = state.links.__aiKey;
+        state.links=p.new.value||{}; state.links.__aiKey=aiKey; render();
+      }
     })
     .subscribe(s=>{ if(s==='SUBSCRIBED') setConn(true); });
 }
@@ -335,24 +346,63 @@ function setConn(ok,msg){
 }
 
 /* ---------- Aktionen ---------- */
-function add(title,format){
+function add(title, project){
   const t=title.trim(); if(!t) return;
   const c={id:'c'+Date.now()+Math.random().toString(36).slice(2,5),
-    title:t,stage:0,who:'Uldis',format:format||'Short',created:Date.now(),
-    checks:{},script:'',week:null,postedAt:null};
+    title:t, project, stage:0, checks:{}, script:'', research:'',
+    created:Date.now(), postedAt:null};
   state.cards.unshift(c); pushCard(c); render();
 }
 function move(c,dir){
-  const n=dir>0?nextOf(c):prevOf(c);
-  if(n===null) return;
+  const st=stagesFor(c.project);
+  const n=c.stage+dir;
+  if(n<0||n>st.length-1) return;
   c.stage=n;
-  if(n===5){ c.week=nowWeek(); c.postedAt=Date.now(); } else { c.week=null; c.postedAt=null; }
+  c.postedAt = (n===st.length-1) ? Date.now() : null;
   pushCard(c); render();
 }
-const left=c=>checksFor(c).filter((_,i)=>!c.checks[c.stage+':'+i]).length;
+const left=c=>{
+  const st=stagesFor(c.project), checks=st[c.stage].checks;
+  return checks.filter((_,i)=>!c.checks[c.stage+':'+i]).length;
+};
+
+/* ---------- KI-Recherche (kostenlose Gemini API) ---------- */
+async function runResearch(c){
+  const key = state.links.__aiKey;
+  if(!key){
+    editorAI.output = 'Kein Gemini API-Key hinterlegt. Trag ihn unten unter "KI-Key" ein (kostenlos über aistudio.google.com/apikey, einmalig).';
+    renderEditor(); return;
+  }
+  editorAI.loading = true; renderEditor();
+  const projectName = PROJECTS[c.project].name;
+  const sys = c.project === 'wettbewerb'
+    ? 'You are a research assistant for a German history-competition (Geschichtswettbewerb) video project. Gather and summarize factual historical context, sources, and concrete details the student can use — but do NOT write the script or narrative for them. Give facts, dates, source pointers, and possible angles, in German, well organized with short headers. Be concise but substantive.'
+    : 'You are a research assistant for a cinematic solo YouTube video project. Gather and summarize factual/background research on the topic — but do NOT write the script, hook, or narrative for the student. Give facts, context, and interesting angles they could use, in German, well organized with short headers. Be concise but substantive.';
+  try{
+    const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-goog-api-key':key},
+      body: JSON.stringify({
+        systemInstruction: { parts:[{ text: sys }] },
+        contents: [{ role:'user', parts:[{ text: `Projekt: ${projectName}\nTitel/Thema der Karte: ${c.title}\n\nRecherche-Frage: ${editorAI.query}` }] }]
+      })
+    });
+    const d = await r.json();
+    if(d.error){
+      editorAI.output = 'Fehler von der Gemini API: '+(d.error.message||JSON.stringify(d.error));
+    } else {
+      const cand = (d.candidates||[])[0];
+      const txt = cand && cand.content && cand.content.parts ? cand.content.parts.map(p=>p.text||'').join('') : '';
+      editorAI.output = txt || 'Keine Antwort erhalten.';
+    }
+  }catch(e){
+    editorAI.output = 'Fehler bei der Recherche: '+(e&&e.message?e.message:e);
+  }
+  editorAI.loading = false; renderEditor();
+}
 
 /* ---------- Editor ---------- */
-function openEditor(c){ editing=c.id; renderEditor(); }
+function openEditor(c){ editing=c.id; editorAI={open:false,loading:false,output:'',query:''}; renderEditor(); }
 function closeEditor(){ editing=null; renderEditor(); render(); }
 function escKey(e){ if(e.key==='Escape'&&editing) closeEditor(); }
 
@@ -361,51 +411,53 @@ function renderEditor(){
   const c=state.cards.find(x=>x.id===editing);
   if(!c){ host.innerHTML=''; document.removeEventListener('keydown',escKey); return; }
   document.addEventListener('keydown',escKey);
-  const s=STAGES[Math.min(c.stage,4)], nStage=nextOf(c);
-  const short=c.format==='Short';
+  const st=stagesFor(c.project);
+  const s=st[c.stage];
+  const nStage = c.stage<st.length-1 ? c.stage+1 : null;
 
   host.innerHTML=`
     <div class="ed" style="--c:${s.c}">
       <div class="ed-top">
-        <input id="edtitle" value="${esc(c.title)}" placeholder="Titel oder Hook">
+        <input id="edtitle" value="${esc(c.title)}" placeholder="Titel oder Thema">
         <span class="chip on" style="--c:${s.c}">${s.name}</span>
         <button class="ghost" id="edclose">Schließen</button>
       </div>
       <div class="ed-main">
         <div class="ed-write">
-          <textarea id="edtext" placeholder="${short?'Hook in die erste Zeile. Dann der Rest.':'Slide für Slide, oder die Caption.'}">${esc(c.script||'')}</textarea>
+          <textarea id="edtext" placeholder="Dein eigenes Skript / deine eigene Storyline hier schreiben. Die KI-Recherche unten liefert nur Fakten, nicht den Text.">${esc(c.script||'')}</textarea>
         </div>
         <aside class="ed-side">
           <div class="grp">
             <h3>Länge</h3>
             <div class="stat" id="stw"><span>Wörter</span><span>0</span></div>
-            <div class="stat" id="sts"><span>${short?'Gesprochen':'Zeichen'}</span><span>0</span></div>
-            <div class="stat"><span>Zielmarke</span><span>${short?'bis 60 Sek':'Slides / Caption'}</span></div>
           </div>
           <div class="grp"><h3>${s.name}</h3><div id="edchecks"></div></div>
           <div class="grp">
-            ${nStage!==null?`<button class="next" id="ednext" style="--c:${s.c}">${nStage===5?'Als veröffentlicht markieren':'Weiter zu '+STAGES[nStage].name}</button>`:''}
+            ${nStage!==null?`<button class="next" id="ednext" style="--c:${s.c}">Weiter zu ${st[nStage].name}</button>`:''}
             <button class="ghost" id="edclose2">Zurück zum Board</button>
           </div>
         </aside>
+      </div>
+      <div class="research ${editorAI.open?'':'collapsed'}" id="research">
+        <div class="research-h">
+          <b>🔍 KI-Recherche</b>
+          <span class="hint">liefert Fakten, schreibt nicht dein Skript</span>
+          <button class="ghost" id="research-toggle">${editorAI.open?'Einklappen':'Öffnen'}</button>
+        </div>
+        <div class="research-body" id="research-body" style="${editorAI.open?'':'display:none'}"></div>
       </div>
     </div>`;
 
   const ta=host.querySelector('#edtext'), ti=host.querySelector('#edtitle');
   function stats(){
-    const w=words(ta.value), sec=Math.round(w/WPS);
-    host.querySelector('#stw').lastElementChild.textContent=w;
-    const se=host.querySelector('#sts');
-    if(short){ se.lastElementChild.textContent='~'+sec+' Sek';
-      se.className='stat '+(w===0?'':(sec>60?'warn':'good')); }
-    else { se.lastElementChild.textContent=ta.value.length; se.className='stat'; }
+    host.querySelector('#stw').lastElementChild.textContent = words(ta.value);
   }
   ta.addEventListener('input',()=>{c.script=ta.value;stats();pushCard(c);});
   ti.addEventListener('input',()=>{c.title=ti.value;pushCard(c);});
-  stats(); ta.focus(); ta.setSelectionRange(ta.value.length,ta.value.length);
+  stats();
 
   const cw=host.querySelector('#edchecks');
-  checksFor(c).forEach((txt,i)=>{
+  s.checks.forEach((txt,i)=>{
     const on=!!c.checks[c.stage+':'+i];
     const b=document.createElement('button');
     b.className='chk'+(on?' on':''); b.style.setProperty('--c',s.c);
@@ -416,7 +468,51 @@ function renderEditor(){
   host.querySelector('#edclose').onclick=closeEditor;
   host.querySelector('#edclose2').onclick=closeEditor;
   const nx=host.querySelector('#ednext');
-  if(nx) nx.onclick=()=>{ move(c,1); if(c.stage>=2) closeEditor(); else renderEditor(); };
+  if(nx) nx.onclick=()=>{ move(c,1); renderEditor(); };
+
+  host.querySelector('#research-toggle').onclick=()=>{
+    editorAI.open=!editorAI.open; renderEditor();
+  };
+  if(editorAI.open) renderResearchBody(c);
+}
+
+function renderResearchBody(c){
+  const body=document.getElementById('research-body');
+  if(!body) return;
+  body.style.display='';
+  const hasKey = !!(state.links.__aiKey && state.links.__aiKey.trim());
+  body.innerHTML=`
+    <div class="research-note">Frag nach Fakten, Quellen, historischem Kontext oder Recherche-Winkeln. Skript und Storytelling schreibst du weiterhin selbst.</div>
+    ${!hasKey ? `<div class="research-key">
+        <input id="ai-key" type="password" placeholder="Gemini API-Key (kostenlos: aistudio.google.com/apikey)" value="${esc(state.links.__aiKey||'')}">
+        <button id="ai-key-save">Speichern</button>
+      </div>` : ''}
+    <div class="research-row">
+      <input id="research-q" placeholder="z.B. Lebensmittelversorgung Lettische SSR 1970er" value="${esc(editorAI.query)}">
+      <button id="research-go" ${editorAI.loading?'disabled':''}>${editorAI.loading?'Sucht…':'Recherchieren'}</button>
+    </div>
+    ${editorAI.output ? `<div class="research-out ${editorAI.loading?'loading':''}">${esc(editorAI.output)}</div>
+      <button class="research-insert" id="research-insert">In eigene Notizen übernehmen ↓</button>` : ''}
+  `;
+  const keyInput = body.querySelector('#ai-key');
+  if(keyInput){
+    body.querySelector('#ai-key-save').onclick=()=>{
+      state.links.__aiKey = keyInput.value.trim();
+      pushKey();
+      renderResearchBody(c);
+    };
+  }
+  const qInput = body.querySelector('#research-q');
+  qInput.addEventListener('input', e=>{ editorAI.query = e.target.value; });
+  qInput.addEventListener('keydown', e=>{ if(e.key==='Enter' && !editorAI.loading) runResearch(c); });
+  body.querySelector('#research-go').onclick=()=>runResearch(c);
+  const insertBtn = body.querySelector('#research-insert');
+  if(insertBtn) insertBtn.onclick=()=>{
+    c.research = (c.research||'') + (c.research?'\n\n---\n\n':'') + editorAI.output;
+    pushCard(c);
+    editorAI.output=''; editorAI.query='';
+    renderResearchBody(c);
+  };
 }
 
 /* ---------- Archiv ---------- */
@@ -424,11 +520,6 @@ function renderArchive(){
   const host=document.getElementById('archive');
   if(!state.showArchive){ host.innerHTML=''; return; }
   const list=state.cards.filter(archived).sort((a,b)=>(b.postedAt||b.created)-(a.postedAt||a.created));
-  const groups=[];
-  list.forEach(c=>{
-    const k=weekKey(new Date(c.postedAt||c.created));
-    let g=groups.find(x=>x.k===k); if(!g){g={k,items:[]};groups.push(g);} g.items.push(c);
-  });
   host.innerHTML=`<div class="scrim" id="arcscrim"></div>
     <div class="arcv">
       <div class="arcv-h"><h2>Archiv</h2><span class="n">${list.length}</span>
@@ -436,23 +527,17 @@ function renderArchive(){
       <div class="arcv-b" id="arcb"></div>
     </div>`;
   const b=host.querySelector('#arcb');
-  if(!groups.length){
+  if(!list.length){
     const e=document.createElement('div'); e.className='arcv-e';
-    e.textContent='Noch nichts archiviert. Posts landen hier automatisch sieben Tage nach der Veröffentlichung.';
+    e.textContent='Noch nichts archiviert.';
     b.appendChild(e);
   }
-  groups.forEach(g=>{
-    const h=document.createElement('div'); h.className='arcv-g';
-    h.textContent=g.k.replace('-',' · ')+'  ·  '+g.items.length+(g.items.length===1?' Post':' Posts');
-    b.appendChild(h);
-    g.items.forEach(c=>{
-      const row=document.createElement('button'); row.className='arow';
-      const sec=c.script&&c.script.trim()?(c.format==='Short'?' · ~'+Math.round(words(c.script)/WPS)+' Sek':' · Text'):'';
-      row.innerHTML=`<div class="t">${esc(c.title)}</div>
-        <div class="m">${dstr(c.postedAt||c.created)} · ${esc(c.format)} · ${esc(c.who)}${sec}</div>`;
-      row.onclick=()=>{ state.showArchive=false; renderArchive(); openEditor(c); };
-      b.appendChild(row);
-    });
+  list.forEach(c=>{
+    const row=document.createElement('button'); row.className='arow';
+    row.innerHTML=`<div class="t">${esc(c.title)}</div>
+      <div class="m">${dstr(c.postedAt||c.created)} · ${esc(PROJECTS[c.project].name)}</div>`;
+    row.onclick=()=>{ state.showArchive=false; renderArchive(); openEditor(c); };
+    b.appendChild(row);
   });
   host.querySelector('#arcx').onclick=closeArchive;
   host.querySelector('#arcscrim').onclick=closeArchive;
@@ -463,14 +548,19 @@ function escArc(e){ if(e.key==='Escape'&&state.showArchive&&!editing) closeArchi
 
 /* ---------- Board ---------- */
 function render(){
-  const wk=nowWeek();
-  const posted=state.cards.filter(c=>c.stage===5&&c.week===wk).length;
-  document.getElementById('cnt').innerHTML=posted+'<span>/5</span>';
-  document.getElementById('bars').innerHTML=[0,1,2,3,4].map(i=>`<div class="bar-i ${i<posted?'on':''}"></div>`).join('');
-  document.getElementById('kw').textContent=wk.split('-')[1]+' läuft';
-  document.getElementById('rest').textContent=posted>=5?'Soll erfüllt.':(5-posted)+' Post'+(5-posted===1?'':'s')+' fehlen';
+  const tabs=document.getElementById('tabs');
+  tabs.innerHTML='';
+  PROJECT_ORDER.forEach(pid=>{
+    const b=document.createElement('button');
+    b.className='tab'+(state.activeProject===pid?' on':'');
+    b.style.setProperty('--pc', PROJECTS[pid].c);
+    b.textContent=PROJECTS[pid].name;
+    b.onclick=()=>{ state.activeProject=pid; render(); };
+    tabs.appendChild(b);
+  });
 
   const rail=document.getElementById('rail'), form=document.getElementById('linkform');
+  const LINKS=[{id:'broll',label:'B-Roll'},{id:'quellen',label:'Quellen'},{id:'assets',label:'Assets'}];
   if(state.editLinks){
     rail.innerHTML='';
     form.className='linkform';
@@ -493,52 +583,40 @@ function render(){
     rail.querySelector('#lgout').onclick=async()=>{ await sb.auth.signOut(); location.reload(); };
   }
 
+  const pid = state.activeProject;
+  const STAGES = stagesFor(pid);
   const board=document.getElementById('board'); board.innerHTML='';
   STAGES.forEach((s,si)=>{
     const col=document.createElement('div');
     col.className='col';
     col.style.setProperty('--c',s.c);
     col.style.setProperty('--crgb',s.rgb);
-    const inStage=state.cards.filter(c=>c.stage===si);
+    const inStage=state.cards.filter(c=>c.project===pid && c.stage===si);
     col.innerHTML=`<div class="col-h"><h2>${s.name}</h2><span class="n">${inStage.length}</span><span class="stg">${s.hint}</span></div>`;
     const b=document.createElement('div'); b.className='col-b';
-    if(si===0) b.appendChild(adder());
+    if(si===0) b.appendChild(adder(pid));
     let list=inStage.slice();
-    if(si===4) list=list.concat(state.cards.filter(c=>c.stage===5&&!archived(c)));
+    if(si===STAGES.length-1) list=list.concat(state.cards.filter(c=>c.project===pid && c.stage===si && !archived(c) && !inStage.includes(c)));
     list.forEach(c=>b.appendChild(cardEl(c)));
     if(!list.length&&si>0){
       const e=document.createElement('div'); e.className='empty';
-      e.textContent=['','Nichts zu schreiben.','Kein Skript wartet auf die Kamera.','Nichts im Schnitt.','Diese Woche noch nichts raus.'][si];
+      e.textContent='Noch nichts hier.';
       b.appendChild(e);
     }
     col.appendChild(b); board.appendChild(col);
   });
 }
 
-function adder(){
+function adder(pid){
   const wrap=document.createElement('div');
   const btn=document.createElement('button');
   btn.className='add'; btn.textContent='Idee hinzufügen';
   btn.onclick=()=>{
-    let fmt='Short', used=false;
-    const box=document.createElement('div');
+    let used=false;
     const inp=document.createElement('input');
-    inp.className='addin'; inp.placeholder='Hook oder Thema, dann Enter';
-    const row=document.createElement('div'); row.className='fmtrow';
-    const hint=document.createElement('div'); hint.className='fmthint';
-    const setHint=()=>{ hint.textContent = fmt==='Short'
-      ? 'Läuft durch Scripting, Verfilmen und Editen.' : fmt+' springt direkt zu Posten.'; };
-    FORMATS.forEach(f=>{
-      const b=document.createElement('button');
-      b.className='fmt'+(f===fmt?' on':''); b.textContent=f;
-      b.onmousedown=e=>e.preventDefault();
-      b.onclick=()=>{ fmt=f; [...row.children].forEach(x=>x.className='fmt'+(x.textContent===f?' on':'')); setHint(); inp.focus(); };
-      row.appendChild(b);
-    });
-    setHint();
-    box.appendChild(inp); box.appendChild(row); box.appendChild(hint);
-    wrap.replaceChild(box,btn); inp.focus();
-    const commit=()=>{ if(used) return; used=true; add(inp.value,fmt); };
+    inp.className='addin'; inp.placeholder='Thema oder Hook, dann Enter';
+    wrap.replaceChild(inp,btn); inp.focus();
+    const commit=()=>{ if(used) return; used=true; add(inp.value,pid); };
     const cancel=()=>{ if(used) return; used=true; render(); };
     inp.onkeydown=e=>{ if(e.key==='Enter'){e.preventDefault();commit();} if(e.key==='Escape'){cancel();} };
     inp.onblur=()=>{ setTimeout(()=>{ if(used) return; inp.value.trim()?commit():cancel(); },120); };
@@ -547,44 +625,39 @@ function adder(){
 }
 
 function cardEl(c){
-  const done=c.stage===5, s=STAGES[Math.min(c.stage,4)];
+  const st=stagesFor(c.project);
+  const done=c.stage===st.length-1 && c.postedAt;
+  const s=st[c.stage];
   const el=document.createElement('div');
   el.className='card'; el.style.setProperty('--c',done?'var(--s5)':s.c);
   const age=days(c.created), n=done?0:left(c);
 
   const head=document.createElement('button');
   head.className='head';
-  head.innerHTML=`<span class="t">${esc(c.title)}</span><span class="age ${age>4&&!done?'old':''}">${done?'ab':age+' T'}</span>`;
+  head.innerHTML=`<span class="t">${esc(c.title)}</span><span class="age ${age>10&&!done?'old':''}">${done?'ab':age+' T'}</span>`;
   head.onclick=()=>{open=(open===c.id)?null:c.id;render();};
   el.appendChild(head);
 
   const meta=document.createElement('div'); meta.className='meta';
-  const who=document.createElement('button');
-  who.className='chip on'; who.textContent=c.who;
-  who.style.setProperty('--c', c.who==='Jannis'?'var(--j)':'var(--u)');
-  who.onclick=()=>{c.who=PEOPLE[(PEOPLE.indexOf(c.who)+1)%PEOPLE.length];pushCard(c);render();};
-  const fmt=document.createElement('button');
-  fmt.className='chip'; fmt.textContent=c.format;
-  fmt.onclick=()=>{
-    c.format=FORMATS[(FORMATS.indexOf(c.format)+1)%FORMATS.length];
-    if(path(c).indexOf(c.stage)<0) c.stage=0;
-    pushCard(c); render();
-  };
-  meta.appendChild(who); meta.appendChild(fmt);
   if(c.script&&c.script.trim()){
     const d=document.createElement('button');
-    d.className='chip doc'; d.textContent=c.format==='Short'?'~'+Math.round(words(c.script)/WPS)+' Sek':'Text';
+    d.className='chip doc'; d.textContent=words(c.script)+' Wörter';
     d.onclick=()=>openEditor(c); meta.appendChild(d);
+  }
+  if(c.research&&c.research.trim()){
+    const r=document.createElement('button');
+    r.className='chip doc'; r.textContent='🔍 Recherche';
+    r.onclick=()=>openEditor(c); meta.appendChild(r);
   }
   const td=document.createElement('span');
   td.className='todo'+(n===0?' ok':'');
-  td.textContent=done?'veröffentlicht':(n===0?'bereit':n+' offen');
+  td.textContent=done?'fertig':(n===0?'bereit':n+' offen');
   meta.appendChild(td);
   el.appendChild(meta);
 
   if(open===c.id){
     const b=document.createElement('div'); b.className='body';
-    if(!done) checksFor(c).forEach((txt,i)=>{
+    if(!done) s.checks.forEach((txt,i)=>{
       const on=!!c.checks[c.stage+':'+i];
       const row=document.createElement('button');
       row.className='chk'+(on?' on':'');
@@ -594,11 +667,11 @@ function cardEl(c){
     });
     const acts=document.createElement('div'); acts.className='acts';
     const sc=document.createElement('button');
-    sc.className='next'; sc.textContent=(c.script&&c.script.trim())?'Skript öffnen':'Skript schreiben';
+    sc.className='next'; sc.textContent='Öffnen (Skript & Recherche)';
     sc.onclick=()=>openEditor(c); acts.appendChild(sc);
-    if(!done){
+    if(!done && c.stage<st.length-1){
       const nx=document.createElement('button');
-      nx.className='ghost'; nx.textContent=c.stage===4?'Veröffentlicht':'Weiter';
+      nx.className='ghost'; nx.textContent='Weiter';
       nx.onclick=()=>move(c,1); acts.appendChild(nx);
     }
     if(c.stage>0){
