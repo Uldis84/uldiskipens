@@ -160,6 +160,12 @@
   .research-out.loading{color:var(--faint);font-style:italic;}
   .research-insert{font-size:12px;color:var(--s3);padding:4px 0;}
   .research-note{font-size:11.5px;color:var(--faint);line-height:1.5;margin-bottom:10px;}
+  .research-sources{font-size:12px;color:var(--dim);margin-bottom:10px;}
+  .research-sources b{color:var(--ink);font-size:12.5px;}
+  .research-sources ul{margin:6px 0 0;padding-left:18px;}
+  .research-sources li{margin-bottom:4px;line-height:1.4;}
+  .research-sources a{color:var(--s3);text-decoration:none;}
+  .research-sources a:hover{text-decoration:underline;}
   .research-key{display:flex;gap:8px;}
   .research-key input{flex:1;background:var(--surface);border:1px solid var(--line);
                        border-radius:7px;padding:8px 10px;font-size:12.5px;color:var(--ink);}
@@ -259,7 +265,7 @@ function stagesFor(pid){
 
 let state={cards:[],links:{},editLinks:false,showArchive:false,activeProject:'solo'};
 let open=null, editing=null, online=false;
-let editorAI = { open:false, loading:false, output:'', query:'' };
+let editorAI = { open:false, loading:false, output:'', query:'', sources:[] };
 
 const days=ts=>Math.floor((Date.now()-ts)/86400000);
 const words=s=>(s||'').trim()?s.trim().split(/\s+/).length:0;
@@ -294,6 +300,11 @@ function pushKey(){
   clearTimeout(keyTimer);
   keyTimer=setTimeout(()=>sb.from('settings').upsert({key:'geminiKey',value:{key:state.links.__aiKey||''}}),300);
 }
+let cseTimer;
+function pushCse(){
+  clearTimeout(cseTimer);
+  cseTimer=setTimeout(()=>sb.from('settings').upsert({key:'cseConfig',value:{apiKey:state.links.__cseKey||'',cx:state.links.__cseId||''}}),300);
+}
 async function loadAll(){
   const {data:rows,error}=await sb.from('cards').select('id,data');
   if(error){ setConn(false,'Laden fehlgeschlagen'); return; }
@@ -304,6 +315,9 @@ async function loadAll(){
   state.links=(st&&st.value)||{};
   const {data:kk}=await sb.from('settings').select('value').eq('key','geminiKey').maybeSingle();
   state.links.__aiKey = (kk&&kk.value&&kk.value.key) || '';
+  const {data:cse}=await sb.from('settings').select('value').eq('key','cseConfig').maybeSingle();
+  state.links.__cseKey = (cse&&cse.value&&cse.value.apiKey) || '';
+  state.links.__cseId = (cse&&cse.value&&cse.value.cx) || '';
   setConn(true);
 }
 function typing(){
@@ -332,8 +346,8 @@ function subscribe(){
     })
     .on('postgres_changes',{event:'*',schema:'public',table:'settings'},p=>{
       if(p.new && p.new.key==='links' && !state.editLinks){
-        const aiKey = state.links.__aiKey;
-        state.links=p.new.value||{}; state.links.__aiKey=aiKey; render();
+        const aiKey = state.links.__aiKey, cseKey = state.links.__cseKey, cseId = state.links.__cseId;
+        state.links=p.new.value||{}; state.links.__aiKey=aiKey; state.links.__cseKey=cseKey; state.links.__cseId=cseId; render();
       }
     })
     .subscribe(s=>{ if(s==='SUBSCRIBED') setConn(true); });
@@ -366,25 +380,62 @@ const left=c=>{
   return checks.filter((_,i)=>!c.checks[c.stage+':'+i]).length;
 };
 
-/* ---------- KI-Recherche (kostenlose Gemini API) ---------- */
+/* ---------- KI-Recherche (kostenlose Gemini API + echte Quellen via Google Custom Search) ---------- */
+async function googleSearch(query){
+  const apiKey = state.links.__cseKey;
+  const cx = state.links.__cseId;
+  if(!apiKey || !cx) return [];
+  try{
+    const url = 'https://www.googleapis.com/customsearch/v1?key='+encodeURIComponent(apiKey)
+      +'&cx='+encodeURIComponent(cx)+'&num=5&q='+encodeURIComponent(query);
+    const r = await fetch(url);
+    const d = await r.json();
+    if(d.error) return { error: d.error.message||JSON.stringify(d.error) };
+    return (d.items||[]).map(it=>({ title: it.title, link: it.link, snippet: it.snippet||'' }));
+  }catch(e){
+    return { error: e && e.message ? e.message : String(e) };
+  }
+}
+
 async function runResearch(c){
   const key = state.links.__aiKey;
   if(!key){
     editorAI.output = 'Kein Gemini API-Key hinterlegt. Trag ihn unten unter "KI-Key" ein (kostenlos über aistudio.google.com/apikey, einmalig).';
     renderEditor(); return;
   }
-  editorAI.loading = true; renderEditor();
+  editorAI.loading = true; editorAI.sources = []; renderEditor();
+
+  var results = [];
+  if(state.links.__cseKey && state.links.__cseId){
+    var searchRes = await googleSearch(editorAI.query);
+    if(searchRes && searchRes.error){
+      editorAI.output = 'Fehler bei der Google-Suche: '+searchRes.error;
+      editorAI.loading = false; renderEditor(); return;
+    }
+    results = searchRes || [];
+    editorAI.sources = results;
+  }
+
   const projectName = PROJECTS[c.project].name;
   const sys = c.project === 'wettbewerb'
-    ? 'You are a research assistant for a German history-competition (Geschichtswettbewerb) video project. Gather and summarize factual historical context, sources, and concrete details the student can use — but do NOT write the script or narrative for them. Give facts, dates, source pointers, and possible angles, in German, well organized with short headers. Be concise but substantive.'
-    : 'You are a research assistant for a cinematic solo YouTube video project. Gather and summarize factual/background research on the topic — but do NOT write the script, hook, or narrative for the student. Give facts, context, and interesting angles they could use, in German, well organized with short headers. Be concise but substantive.';
+    ? 'You are a research assistant for a German history-competition (Geschichtswettbewerb) video project. Gather and summarize factual historical context, sources, and concrete details the student can use — but do NOT write the script or narrative for them. Give facts, dates, and possible angles, in German, well organized with short headers. Be concise but substantive. If source snippets are provided, base your summary strictly on them and reference which numbered source each fact comes from, e.g. "(Quelle 2)".'
+    : 'You are a research assistant for a cinematic solo YouTube video project. Gather and summarize factual/background research on the topic — but do NOT write the script, hook, or narrative for the student. Give facts, context, and interesting angles they could use, in German, well organized with short headers. Be concise but substantive. If source snippets are provided, base your summary strictly on them and reference which numbered source each fact comes from, e.g. "(Quelle 2)".';
+
+  var userContent = `Projekt: ${projectName}\nTitel/Thema der Karte: ${c.title}\n\nRecherche-Frage: ${editorAI.query}`;
+  if(results.length){
+    userContent += '\n\nGefundene Quellen (nutze NUR diese für Fakten, zitiere mit "(Quelle N)"):\n'
+      + results.map((r,i)=>`[Quelle ${i+1}] ${r.title}\n${r.link}\n${r.snippet}`).join('\n\n');
+  } else if(state.links.__cseKey && state.links.__cseId){
+    userContent += '\n\n(Keine Suchergebnisse gefunden — antworte aus allgemeinem Wissen und weise darauf hin, dass keine Quellen verifiziert werden konnten.)';
+  }
+
   try{
     const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent', {
       method:'POST',
       headers:{'Content-Type':'application/json','x-goog-api-key':key},
       body: JSON.stringify({
         systemInstruction: { parts:[{ text: sys }] },
-        contents: [{ role:'user', parts:[{ text: `Projekt: ${projectName}\nTitel/Thema der Karte: ${c.title}\n\nRecherche-Frage: ${editorAI.query}` }] }]
+        contents: [{ role:'user', parts:[{ text: userContent }] }]
       })
     });
     const d = await r.json();
@@ -402,7 +453,7 @@ async function runResearch(c){
 }
 
 /* ---------- Editor ---------- */
-function openEditor(c){ editing=c.id; editorAI={open:false,loading:false,output:'',query:''}; renderEditor(); }
+function openEditor(c){ editing=c.id; editorAI={open:false,loading:false,output:'',query:'',sources:[]}; renderEditor(); }
 function closeEditor(){ editing=null; renderEditor(); render(); }
 function escKey(e){ if(e.key==='Escape'&&editing) closeEditor(); }
 
@@ -481,17 +532,27 @@ function renderResearchBody(c){
   if(!body) return;
   body.style.display='';
   const hasKey = !!(state.links.__aiKey && state.links.__aiKey.trim());
+  const hasCse = !!(state.links.__cseKey && state.links.__cseKey.trim() && state.links.__cseId && state.links.__cseId.trim());
   body.innerHTML=`
     <div class="research-note">Frag nach Fakten, Quellen, historischem Kontext oder Recherche-Winkeln. Skript und Storytelling schreibst du weiterhin selbst.</div>
     ${!hasKey ? `<div class="research-key">
         <input id="ai-key" type="password" placeholder="Gemini API-Key (kostenlos: aistudio.google.com/apikey)" value="${esc(state.links.__aiKey||'')}">
         <button id="ai-key-save">Speichern</button>
       </div>` : ''}
+    ${!hasCse ? `<div class="research-note">Für echte Quellenlinks (Bücher, Archive etc.) zusätzlich einrichten: <a href="https://programmablesearchengine.google.com/" target="_blank" rel="noopener" style="color:var(--s3)">Programmable Search Engine</a> erstellen (auf "das gesamte Web durchsuchen" stellen) + <a href="https://console.cloud.google.com/apis/library/customsearch.googleapis.com" target="_blank" rel="noopener" style="color:var(--s3)">Custom Search API</a> aktivieren, kostenlos bis 100 Suchen/Tag.</div>
+      <div class="research-key">
+        <input id="cse-key" type="password" placeholder="Custom Search API-Key" value="${esc(state.links.__cseKey||'')}">
+        <input id="cse-id" type="text" placeholder="Search Engine ID (cx)" value="${esc(state.links.__cseId||'')}">
+        <button id="cse-save">Speichern</button>
+      </div>` : ''}
     <div class="research-row">
       <input id="research-q" placeholder="z.B. Lebensmittelversorgung Lettische SSR 1970er" value="${esc(editorAI.query)}">
       <button id="research-go" ${editorAI.loading?'disabled':''}>${editorAI.loading?'Sucht…':'Recherchieren'}</button>
     </div>
     ${editorAI.output ? `<div class="research-out ${editorAI.loading?'loading':''}">${esc(editorAI.output)}</div>
+      ${editorAI.sources && editorAI.sources.length ? `<div class="research-sources"><b>Echte Quellen:</b><ul>`
+        + editorAI.sources.map((s,i)=>`<li>[${i+1}] <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join('')
+        + `</ul></div>` : (hasCse ? '' : '<div class="research-note">Kein Custom-Search-Key hinterlegt — diese Antwort hat keine verifizierten Quellenlinks, nur allgemeines KI-Wissen.</div>')}
       <button class="research-insert" id="research-insert">In eigene Notizen übernehmen ↓</button>` : ''}
   `;
   const keyInput = body.querySelector('#ai-key');
@@ -502,15 +563,27 @@ function renderResearchBody(c){
       renderResearchBody(c);
     };
   }
+  const cseKeyInput = body.querySelector('#cse-key'), cseIdInput = body.querySelector('#cse-id');
+  if(cseKeyInput){
+    body.querySelector('#cse-save').onclick=()=>{
+      state.links.__cseKey = cseKeyInput.value.trim();
+      state.links.__cseId = cseIdInput.value.trim();
+      pushCse();
+      renderResearchBody(c);
+    };
+  }
   const qInput = body.querySelector('#research-q');
   qInput.addEventListener('input', e=>{ editorAI.query = e.target.value; });
   qInput.addEventListener('keydown', e=>{ if(e.key==='Enter' && !editorAI.loading) runResearch(c); });
   body.querySelector('#research-go').onclick=()=>runResearch(c);
   const insertBtn = body.querySelector('#research-insert');
   if(insertBtn) insertBtn.onclick=()=>{
-    c.research = (c.research||'') + (c.research?'\n\n---\n\n':'') + editorAI.output;
+    var sourcesText = (editorAI.sources && editorAI.sources.length)
+      ? '\n\nQuellen:\n' + editorAI.sources.map((s,i)=>`[${i+1}] ${s.title} — ${s.link}`).join('\n')
+      : '';
+    c.research = (c.research||'') + (c.research?'\n\n---\n\n':'') + editorAI.output + sourcesText;
     pushCard(c);
-    editorAI.output=''; editorAI.query='';
+    editorAI.output=''; editorAI.query=''; editorAI.sources=[];
     renderResearchBody(c);
   };
 }
