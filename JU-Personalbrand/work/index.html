@@ -535,16 +535,8 @@ function renderResearchBody(c){
   const hasCse = !!(state.links.__cseKey && state.links.__cseKey.trim() && state.links.__cseId && state.links.__cseId.trim());
   body.innerHTML=`
     <div class="research-note">Frag nach Fakten, Quellen, historischem Kontext oder Recherche-Winkeln. Skript und Storytelling schreibst du weiterhin selbst.</div>
-    ${!hasKey ? `<div class="research-key">
-        <input id="ai-key" type="password" placeholder="Gemini API-Key (kostenlos: aistudio.google.com/apikey)" value="${esc(state.links.__aiKey||'')}">
-        <button id="ai-key-save">Speichern</button>
-      </div>` : ''}
-    ${!hasCse ? `<div class="research-note">Für echte Quellenlinks (Bücher, Archive etc.) zusätzlich einrichten: <a href="https://programmablesearchengine.google.com/" target="_blank" rel="noopener" style="color:var(--s3)">Programmable Search Engine</a> erstellen (auf "das gesamte Web durchsuchen" stellen) + <a href="https://console.cloud.google.com/apis/library/customsearch.googleapis.com" target="_blank" rel="noopener" style="color:var(--s3)">Custom Search API</a> aktivieren, kostenlos bis 100 Suchen/Tag.</div>
-      <div class="research-key">
-        <input id="cse-key" type="password" placeholder="Custom Search API-Key" value="${esc(state.links.__cseKey||'')}">
-        <input id="cse-id" type="text" placeholder="Search Engine ID (cx)" value="${esc(state.links.__cseId||'')}">
-        <button id="cse-save">Speichern</button>
-      </div>` : ''}
+    ${!hasKey ? `<div class="research-note" style="color:#F0B44B">Kein Gemini API-Key hinterlegt — trag ihn oben unter ⚙️ Einstellungen ein (einmalig, gilt dann überall).</div>` : ''}
+    ${!hasCse ? `<div class="research-note">Für echte Quellenlinks (Bücher, Archive etc.) zusätzlich unter ⚙️ Einstellungen einrichten: <a href="https://programmablesearchengine.google.com/" target="_blank" rel="noopener" style="color:var(--s3)">Programmable Search Engine</a> + <a href="https://console.cloud.google.com/apis/library/customsearch.googleapis.com" target="_blank" rel="noopener" style="color:var(--s3)">Custom Search API</a>, kostenlos bis 100 Suchen/Tag.</div>` : ''}
     <div class="research-row">
       <input id="research-q" placeholder="z.B. Lebensmittelversorgung Lettische SSR 1970er" value="${esc(editorAI.query)}">
       <button id="research-go" ${editorAI.loading?'disabled':''}>${editorAI.loading?'Sucht…':'Recherchieren'}</button>
@@ -555,23 +547,6 @@ function renderResearchBody(c){
         + `</ul></div>` : (hasCse ? '' : '<div class="research-note">Kein Custom-Search-Key hinterlegt — diese Antwort hat keine verifizierten Quellenlinks, nur allgemeines KI-Wissen.</div>')}
       <button class="research-insert" id="research-insert">In eigene Notizen übernehmen ↓</button>` : ''}
   `;
-  const keyInput = body.querySelector('#ai-key');
-  if(keyInput){
-    body.querySelector('#ai-key-save').onclick=()=>{
-      state.links.__aiKey = keyInput.value.trim();
-      pushKey();
-      renderResearchBody(c);
-    };
-  }
-  const cseKeyInput = body.querySelector('#cse-key'), cseIdInput = body.querySelector('#cse-id');
-  if(cseKeyInput){
-    body.querySelector('#cse-save').onclick=()=>{
-      state.links.__cseKey = cseKeyInput.value.trim();
-      state.links.__cseId = cseIdInput.value.trim();
-      pushCse();
-      renderResearchBody(c);
-    };
-  }
   const qInput = body.querySelector('#research-q');
   qInput.addEventListener('input', e=>{ editorAI.query = e.target.value; });
   qInput.addEventListener('keydown', e=>{ if(e.key==='Enter' && !editorAI.loading) runResearch(c); });
@@ -639,15 +614,24 @@ function render(){
     form.className='linkform';
     form.innerHTML=LINKS.map(l=>`<label for="l_${l.id}">${l.label}</label>
       <input id="l_${l.id}" type="url" placeholder="https://drive.google.com/..." value="${esc(state.links[l.id]||'')}">`).join('')
-      +`<button class="done" id="linksdone">Links speichern</button>`;
+      + `<label for="s_gemini">Gemini API-Key</label>
+         <input id="s_gemini" type="password" placeholder="kostenlos: aistudio.google.com/apikey" value="${esc(state.links.__aiKey||'')}">`
+      + `<label for="s_csekey">Custom Search API-Key</label>
+         <input id="s_csekey" type="password" placeholder="AIzaSy... (console.cloud.google.com)" value="${esc(state.links.__cseKey||'')}">`
+      + `<label for="s_cseid">Search Engine ID (cx)</label>
+         <input id="s_cseid" type="text" placeholder="von programmablesearchengine.google.com" value="${esc(state.links.__cseId||'')}">`
+      +`<button class="done" id="linksdone">Speichern</button>`;
     LINKS.forEach(l=>form.querySelector('#l_'+l.id).addEventListener('input',e=>{state.links[l.id]=e.target.value.trim();pushLinks();}));
+    form.querySelector('#s_gemini').addEventListener('input',e=>{state.links.__aiKey=e.target.value.trim();pushKey();});
+    form.querySelector('#s_csekey').addEventListener('input',e=>{state.links.__cseKey=e.target.value.trim();pushCse();});
+    form.querySelector('#s_cseid').addEventListener('input',e=>{state.links.__cseId=e.target.value.trim();pushCse();});
     form.querySelector('#linksdone').onclick=()=>{state.editLinks=false;render();};
   } else {
     form.className=''; form.innerHTML='';
     rail.innerHTML=LINKS.map(l=>{const u=state.links[l.id];
       return u?`<a class="drv" href="${esc(u)}" target="_blank" rel="noopener"><i></i>${l.label}</a>`
               :`<span class="drv empty"><i></i>${l.label}</span>`;}).join('')
-      +`<button class="lnkbtn" id="editlinks">Links bearbeiten</button>`
+      +`<button class="lnkbtn" id="editlinks">⚙️ Einstellungen</button>`
       +`<button class="arcbtn" id="openarc">Archiv <b>${state.cards.filter(archived).length}</b></button>`
       +`<span class="conn ${online?'on':'off'}" id="conn"><i></i><span>${online?'live':'offline'}</span></span>`
       +`<button class="lnkbtn" id="lgout">Abmelden</button>`;
