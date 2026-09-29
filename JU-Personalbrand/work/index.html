@@ -413,14 +413,15 @@ async function searchArchive(query){
 
 async function findSources(c){
   editorAI.searching = true; editorAI.sources = []; editorAI.output=''; renderEditor();
-  const [wiki, archive] = await Promise.all([
+  const [wikiDe, wikiEn, archive] = await Promise.all([
     searchWikipedia(editorAI.query, 'de'),
+    searchWikipedia(editorAI.query, 'en'),
     searchArchive(editorAI.query)
   ]);
-  editorAI.sources = [...wiki, ...archive];
+  editorAI.sources = [...wikiDe, ...wikiEn, ...archive];
   editorAI.searching = false;
   if(!editorAI.sources.length){
-    editorAI.searchNote = 'Keine Treffer bei Wikipedia oder Internet Archive für diese Suche — versuch es mit anderen Stichworten.';
+    editorAI.searchNote = 'Keine Treffer bei Wikipedia oder Internet Archive für diese Suche — versuch es mit kürzeren, direkteren Stichworten statt einem ganzen Satz (z.B. "Soviet space dogs" statt einer Frage).';
   } else {
     editorAI.searchNote = '';
   }
@@ -571,7 +572,7 @@ function renderResearchBody(c){
         <div class="source-item">
           <div class="source-head">
             <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.title)}</a>
-            <span class="source-type">${s.type==='wikipedia'?'Wikipedia':'Internet Archive'}</span>
+            <span class="source-type">${s.type==='wikipedia'?('Wikipedia ('+(s.lang==='de'?'DE':'EN')+')'):'Internet Archive'}</span>
           </div>
           <div class="source-snippet">${esc(s.snippet).slice(0,220)}${s.snippet && s.snippet.length>220?'…':''}</div>
           ${!s.summary ? `<button class="ghost source-sum-btn" data-idx="${i}" ${s.summarizing?'disabled':''}>${s.summarizing?'Fasst zusammen…':'Diese Quelle zusammenfassen'}</button>` : ''}
