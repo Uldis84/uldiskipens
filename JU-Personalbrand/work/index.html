@@ -161,11 +161,15 @@
   .research-insert{font-size:12px;color:var(--s3);padding:4px 0;}
   .research-note{font-size:11.5px;color:var(--faint);line-height:1.5;margin-bottom:10px;}
   .research-sources{font-size:12px;color:var(--dim);margin-bottom:10px;}
-  .research-sources b{color:var(--ink);font-size:12.5px;}
-  .research-sources ul{margin:6px 0 0;padding-left:18px;}
-  .research-sources li{margin-bottom:4px;line-height:1.4;}
-  .research-sources a{color:var(--s3);text-decoration:none;}
+  .research-sources a{color:var(--s3);text-decoration:none;font-weight:500;}
   .research-sources a:hover{text-decoration:underline;}
+  .source-item{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+               padding:10px 12px;margin-bottom:9px;}
+  .source-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px;}
+  .source-type{font-size:10.5px;color:var(--faint);border:1px solid var(--line-strong);
+               border-radius:20px;padding:1px 8px;}
+  .source-snippet{font-size:12px;color:var(--dim);line-height:1.5;margin-bottom:8px;}
+  .source-sum-btn{font-size:12px;}
   .research-key{display:flex;gap:8px;}
   .research-key input{flex:1;background:var(--surface);border:1px solid var(--line);
                        border-radius:7px;padding:8px 10px;font-size:12.5px;color:var(--ink);}
@@ -265,7 +269,7 @@ function stagesFor(pid){
 
 let state={cards:[],links:{},editLinks:false,showArchive:false,activeProject:'solo'};
 let open=null, editing=null, online=false;
-let editorAI = { open:false, loading:false, output:'', query:'', sources:[] };
+let editorAI = { open:false, searching:false, query:'', sources:[], searchNote:'' };
 
 const days=ts=>Math.floor((Date.now()-ts)/86400000);
 const words=s=>(s||'').trim()?s.trim().split(/\s+/).length:0;
@@ -300,11 +304,6 @@ function pushKey(){
   clearTimeout(keyTimer);
   keyTimer=setTimeout(()=>sb.from('settings').upsert({key:'geminiKey',value:{key:state.links.__aiKey||''}}),300);
 }
-let cseTimer;
-function pushCse(){
-  clearTimeout(cseTimer);
-  cseTimer=setTimeout(()=>sb.from('settings').upsert({key:'cseConfig',value:{apiKey:state.links.__cseKey||'',cx:state.links.__cseId||''}}),300);
-}
 async function loadAll(){
   const {data:rows,error}=await sb.from('cards').select('id,data');
   if(error){ setConn(false,'Laden fehlgeschlagen'); return; }
@@ -315,9 +314,6 @@ async function loadAll(){
   state.links=(st&&st.value)||{};
   const {data:kk}=await sb.from('settings').select('value').eq('key','geminiKey').maybeSingle();
   state.links.__aiKey = (kk&&kk.value&&kk.value.key) || '';
-  const {data:cse}=await sb.from('settings').select('value').eq('key','cseConfig').maybeSingle();
-  state.links.__cseKey = (cse&&cse.value&&cse.value.apiKey) || '';
-  state.links.__cseId = (cse&&cse.value&&cse.value.cx) || '';
   setConn(true);
 }
 function typing(){
@@ -346,8 +342,8 @@ function subscribe(){
     })
     .on('postgres_changes',{event:'*',schema:'public',table:'settings'},p=>{
       if(p.new && p.new.key==='links' && !state.editLinks){
-        const aiKey = state.links.__aiKey, cseKey = state.links.__cseKey, cseId = state.links.__cseId;
-        state.links=p.new.value||{}; state.links.__aiKey=aiKey; state.links.__cseKey=cseKey; state.links.__cseId=cseId; render();
+        const aiKey = state.links.__aiKey;
+        state.links=p.new.value||{}; state.links.__aiKey=aiKey; render();
       }
     })
     .subscribe(s=>{ if(s==='SUBSCRIBED') setConn(true); });
@@ -381,79 +377,109 @@ const left=c=>{
 };
 
 /* ---------- KI-Recherche (kostenlose Gemini API + echte Quellen via Google Custom Search) ---------- */
-async function googleSearch(query){
-  const apiKey = state.links.__cseKey;
-  const cx = state.links.__cseId;
-  if(!apiKey || !cx) return [];
+/* ---------- Schritt 1: echte, kostenlose Quellensuche (kein KI-Aufruf) ---------- */
+async function searchWikipedia(query, lang){
   try{
-    const url = 'https://www.googleapis.com/customsearch/v1?key='+encodeURIComponent(apiKey)
-      +'&cx='+encodeURIComponent(cx)+'&num=5&q='+encodeURIComponent(query);
+    const url = `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=4&format=json&origin=*`;
     const r = await fetch(url);
     const d = await r.json();
-    if(d.error) return { error: d.error.message||JSON.stringify(d.error) };
-    return (d.items||[]).map(it=>({ title: it.title, link: it.link, snippet: it.snippet||'' }));
-  }catch(e){
-    return { error: e && e.message ? e.message : String(e) };
-  }
+    const items = (d.query && d.query.search) || [];
+    return items.map(it=>({
+      type: 'wikipedia',
+      title: it.title,
+      link: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(it.title.replace(/ /g,'_'))}`,
+      snippet: (it.snippet||'').replace(/<[^>]+>/g,''),
+      ref: it.title,
+      lang: lang
+    }));
+  }catch(e){ return []; }
 }
 
-async function runResearch(c){
+async function searchArchive(query){
+  try{
+    const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}&fl[]=identifier&fl[]=title&fl[]=description&rows=4&output=json`;
+    const r = await fetch(url);
+    const d = await r.json();
+    const docs = (d.response && d.response.docs) || [];
+    return docs.map(it=>({
+      type: 'archive',
+      title: it.title || it.identifier,
+      link: `https://archive.org/details/${it.identifier}`,
+      snippet: Array.isArray(it.description) ? it.description.join(' ') : (it.description||''),
+      ref: it.identifier
+    }));
+  }catch(e){ return []; }
+}
+
+async function findSources(c){
+  editorAI.searching = true; editorAI.sources = []; editorAI.output=''; renderEditor();
+  const [wiki, archive] = await Promise.all([
+    searchWikipedia(editorAI.query, 'de'),
+    searchArchive(editorAI.query)
+  ]);
+  editorAI.sources = [...wiki, ...archive];
+  editorAI.searching = false;
+  if(!editorAI.sources.length){
+    editorAI.searchNote = 'Keine Treffer bei Wikipedia oder Internet Archive für diese Suche — versuch es mit anderen Stichworten.';
+  } else {
+    editorAI.searchNote = '';
+  }
+  renderEditor();
+}
+
+/* ---------- Schritt 2: eine ausgewählte Quelle von der KI zusammenfassen lassen ---------- */
+async function fetchFullText(source){
+  if(source.type === 'wikipedia'){
+    try{
+      const url = `https://${source.lang}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&titles=${encodeURIComponent(source.ref)}&format=json&origin=*`;
+      const r = await fetch(url);
+      const d = await r.json();
+      const pages = d.query && d.query.pages;
+      const page = pages && Object.values(pages)[0];
+      return (page && page.extract) ? page.extract.slice(0, 6000) : source.snippet;
+    }catch(e){ return source.snippet; }
+  }
+  // Internet Archive: keine einfache Volltext-API — Titel+Beschreibung als Grundlage nutzen
+  return source.title + '\n' + source.snippet;
+}
+
+async function summarizeSource(c, idx){
   const key = state.links.__aiKey;
   if(!key){
-    editorAI.output = 'Kein Gemini API-Key hinterlegt. Trag ihn unten unter "KI-Key" ein (kostenlos über aistudio.google.com/apikey, einmalig).';
+    editorAI.sources[idx].summaryError = 'Kein Gemini API-Key hinterlegt (unter ⚙️ Einstellungen eintragen).';
     renderEditor(); return;
   }
-  editorAI.loading = true; editorAI.sources = []; renderEditor();
-
-  var results = [];
-  if(state.links.__cseKey && state.links.__cseId){
-    var searchRes = await googleSearch(editorAI.query);
-    if(searchRes && searchRes.error){
-      editorAI.output = 'Fehler bei der Google-Suche: '+searchRes.error;
-      editorAI.loading = false; renderEditor(); return;
-    }
-    results = searchRes || [];
-    editorAI.sources = results;
-  }
-
+  editorAI.sources[idx].summarizing = true; renderEditor();
+  const source = editorAI.sources[idx];
+  const fullText = await fetchFullText(source);
   const projectName = PROJECTS[c.project].name;
-  const sys = c.project === 'wettbewerb'
-    ? 'You are a research assistant for a German history-competition (Geschichtswettbewerb) video project. Gather and summarize factual historical context, sources, and concrete details the student can use — but do NOT write the script or narrative for them. Give facts, dates, and possible angles, in German, well organized with short headers. Be concise but substantive. If source snippets are provided, base your summary strictly on them and reference which numbered source each fact comes from, e.g. "(Quelle 2)".'
-    : 'You are a research assistant for a cinematic solo YouTube video project. Gather and summarize factual/background research on the topic — but do NOT write the script, hook, or narrative for the student. Give facts, context, and interesting angles they could use, in German, well organized with short headers. Be concise but substantive. If source snippets are provided, base your summary strictly on them and reference which numbered source each fact comes from, e.g. "(Quelle 2)".';
-
-  var userContent = `Projekt: ${projectName}\nTitel/Thema der Karte: ${c.title}\n\nRecherche-Frage: ${editorAI.query}`;
-  if(results.length){
-    userContent += '\n\nGefundene Quellen (nutze NUR diese für Fakten, zitiere mit "(Quelle N)"):\n'
-      + results.map((r,i)=>`[Quelle ${i+1}] ${r.title}\n${r.link}\n${r.snippet}`).join('\n\n');
-  } else if(state.links.__cseKey && state.links.__cseId){
-    userContent += '\n\n(Keine Suchergebnisse gefunden — antworte aus allgemeinem Wissen und weise darauf hin, dass keine Quellen verifiziert werden konnten.)';
-  }
-
+  const sys = 'You are a research assistant. Summarize ONLY the following source content, in German, with short factual bullet points. Do NOT add outside knowledge, do NOT write a script or narrative — just summarize what this specific source says, concisely.';
   try{
     const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent', {
       method:'POST',
       headers:{'Content-Type':'application/json','x-goog-api-key':key},
       body: JSON.stringify({
         systemInstruction: { parts:[{ text: sys }] },
-        contents: [{ role:'user', parts:[{ text: userContent }] }]
+        contents: [{ role:'user', parts:[{ text: `Projekt: ${projectName}\nThema der Karte: ${c.title}\n\nQuelle: ${source.title}\n\nInhalt:\n${fullText}` }] }]
       })
     });
     const d = await r.json();
     if(d.error){
-      editorAI.output = 'Fehler von der Gemini API: '+(d.error.message||JSON.stringify(d.error));
+      editorAI.sources[idx].summaryError = d.error.message||JSON.stringify(d.error);
     } else {
       const cand = (d.candidates||[])[0];
       const txt = cand && cand.content && cand.content.parts ? cand.content.parts.map(p=>p.text||'').join('') : '';
-      editorAI.output = txt || 'Keine Antwort erhalten.';
+      editorAI.sources[idx].summary = txt || 'Keine Antwort erhalten.';
     }
   }catch(e){
-    editorAI.output = 'Fehler bei der Recherche: '+(e&&e.message?e.message:e);
+    editorAI.sources[idx].summaryError = e && e.message ? e.message : String(e);
   }
-  editorAI.loading = false; renderEditor();
+  editorAI.sources[idx].summarizing = false;
+  renderEditor();
 }
 
 /* ---------- Editor ---------- */
-function openEditor(c){ editing=c.id; editorAI={open:false,loading:false,output:'',query:'',sources:[]}; renderEditor(); }
+function openEditor(c){ editing=c.id; editorAI={open:false,searching:false,query:'',sources:[],searchNote:''}; renderEditor(); }
 function closeEditor(){ editing=null; renderEditor(); render(); }
 function escKey(e){ if(e.key==='Escape'&&editing) closeEditor(); }
 
@@ -532,35 +558,45 @@ function renderResearchBody(c){
   if(!body) return;
   body.style.display='';
   const hasKey = !!(state.links.__aiKey && state.links.__aiKey.trim());
-  const hasCse = !!(state.links.__cseKey && state.links.__cseKey.trim() && state.links.__cseId && state.links.__cseId.trim());
   body.innerHTML=`
-    <div class="research-note">Frag nach Fakten, Quellen, historischem Kontext oder Recherche-Winkeln. Skript und Storytelling schreibst du weiterhin selbst.</div>
-    ${!hasKey ? `<div class="research-note" style="color:#F0B44B">Kein Gemini API-Key hinterlegt — trag ihn oben unter ⚙️ Einstellungen ein (einmalig, gilt dann überall).</div>` : ''}
-    ${!hasCse ? `<div class="research-note">Für echte Quellenlinks (Bücher, Archive etc.) zusätzlich unter ⚙️ Einstellungen einrichten: <a href="https://programmablesearchengine.google.com/" target="_blank" rel="noopener" style="color:var(--s3)">Programmable Search Engine</a> + <a href="https://console.cloud.google.com/apis/library/customsearch.googleapis.com" target="_blank" rel="noopener" style="color:var(--s3)">Custom Search API</a>, kostenlos bis 100 Suchen/Tag.</div>` : ''}
+    <div class="research-note">Suche zuerst nach echten Quellen (Wikipedia + Internet Archive, kostenlos, kein Key nötig). Öffne die Quelle selbst, oder lass dir einzelne Quellen gezielt zusammenfassen. Skript und Storytelling schreibst du weiterhin selbst.</div>
+    ${!hasKey ? `<div class="research-note" style="color:#F0B44B">Kein Gemini API-Key hinterlegt — nötig fürs Zusammenfassen einzelner Quellen. Trag ihn oben unter ⚙️ Einstellungen ein.</div>` : ''}
     <div class="research-row">
       <input id="research-q" placeholder="z.B. Lebensmittelversorgung Lettische SSR 1970er" value="${esc(editorAI.query)}">
-      <button id="research-go" ${editorAI.loading?'disabled':''}>${editorAI.loading?'Sucht…':'Recherchieren'}</button>
+      <button id="research-go" ${editorAI.searching?'disabled':''}>${editorAI.searching?'Sucht…':'Quellen suchen'}</button>
     </div>
-    ${editorAI.output ? `<div class="research-out ${editorAI.loading?'loading':''}">${esc(editorAI.output)}</div>
-      ${editorAI.sources && editorAI.sources.length ? `<div class="research-sources"><b>Echte Quellen:</b><ul>`
-        + editorAI.sources.map((s,i)=>`<li>[${i+1}] <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join('')
-        + `</ul></div>` : (hasCse ? '' : '<div class="research-note">Kein Custom-Search-Key hinterlegt — diese Antwort hat keine verifizierten Quellenlinks, nur allgemeines KI-Wissen.</div>')}
-      <button class="research-insert" id="research-insert">In eigene Notizen übernehmen ↓</button>` : ''}
+    ${editorAI.searchNote ? `<div class="research-note">${esc(editorAI.searchNote)}</div>` : ''}
+    ${editorAI.sources && editorAI.sources.length ? `<div class="research-sources">
+      ${editorAI.sources.map((s,i)=>`
+        <div class="source-item">
+          <div class="source-head">
+            <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.title)}</a>
+            <span class="source-type">${s.type==='wikipedia'?'Wikipedia':'Internet Archive'}</span>
+          </div>
+          <div class="source-snippet">${esc(s.snippet).slice(0,220)}${s.snippet && s.snippet.length>220?'…':''}</div>
+          ${!s.summary ? `<button class="ghost source-sum-btn" data-idx="${i}" ${s.summarizing?'disabled':''}>${s.summarizing?'Fasst zusammen…':'Diese Quelle zusammenfassen'}</button>` : ''}
+          ${s.summaryError ? `<div class="research-note" style="color:#F0806B">${esc(s.summaryError)}</div>` : ''}
+          ${s.summary ? `<div class="research-out">${esc(s.summary)}</div>
+            <button class="research-insert source-insert-btn" data-idx="${i}">In eigene Notizen übernehmen ↓</button>` : ''}
+        </div>
+      `).join('')}
+    </div>` : ''}
   `;
   const qInput = body.querySelector('#research-q');
   qInput.addEventListener('input', e=>{ editorAI.query = e.target.value; });
-  qInput.addEventListener('keydown', e=>{ if(e.key==='Enter' && !editorAI.loading) runResearch(c); });
-  body.querySelector('#research-go').onclick=()=>runResearch(c);
-  const insertBtn = body.querySelector('#research-insert');
-  if(insertBtn) insertBtn.onclick=()=>{
-    var sourcesText = (editorAI.sources && editorAI.sources.length)
-      ? '\n\nQuellen:\n' + editorAI.sources.map((s,i)=>`[${i+1}] ${s.title} — ${s.link}`).join('\n')
-      : '';
-    c.research = (c.research||'') + (c.research?'\n\n---\n\n':'') + editorAI.output + sourcesText;
-    pushCard(c);
-    editorAI.output=''; editorAI.query=''; editorAI.sources=[];
-    renderResearchBody(c);
-  };
+  qInput.addEventListener('keydown', e=>{ if(e.key==='Enter' && !editorAI.searching) findSources(c); });
+  body.querySelector('#research-go').onclick=()=>findSources(c);
+  body.querySelectorAll('.source-sum-btn').forEach(btn=>{
+    btn.onclick=()=>summarizeSource(c, parseInt(btn.getAttribute('data-idx')));
+  });
+  body.querySelectorAll('.source-insert-btn').forEach(btn=>{
+    btn.onclick=()=>{
+      const s = editorAI.sources[parseInt(btn.getAttribute('data-idx'))];
+      c.research = (c.research||'') + (c.research?'\n\n---\n\n':'') + `Quelle: ${s.title} (${s.link})\n\n${s.summary}`;
+      pushCard(c);
+      renderResearchBody(c);
+    };
+  });
 }
 
 /* ---------- Archiv ---------- */
@@ -616,15 +652,9 @@ function render(){
       <input id="l_${l.id}" type="url" placeholder="https://drive.google.com/..." value="${esc(state.links[l.id]||'')}">`).join('')
       + `<label for="s_gemini">Gemini API-Key</label>
          <input id="s_gemini" type="password" placeholder="kostenlos: aistudio.google.com/apikey" value="${esc(state.links.__aiKey||'')}">`
-      + `<label for="s_csekey">Custom Search API-Key</label>
-         <input id="s_csekey" type="password" placeholder="AIzaSy... (console.cloud.google.com)" value="${esc(state.links.__cseKey||'')}">`
-      + `<label for="s_cseid">Search Engine ID (cx)</label>
-         <input id="s_cseid" type="text" placeholder="von programmablesearchengine.google.com" value="${esc(state.links.__cseId||'')}">`
       +`<button class="done" id="linksdone">Speichern</button>`;
     LINKS.forEach(l=>form.querySelector('#l_'+l.id).addEventListener('input',e=>{state.links[l.id]=e.target.value.trim();pushLinks();}));
     form.querySelector('#s_gemini').addEventListener('input',e=>{state.links.__aiKey=e.target.value.trim();pushKey();});
-    form.querySelector('#s_csekey').addEventListener('input',e=>{state.links.__cseKey=e.target.value.trim();pushCse();});
-    form.querySelector('#s_cseid').addEventListener('input',e=>{state.links.__cseId=e.target.value.trim();pushCse();});
     form.querySelector('#linksdone').onclick=()=>{state.editLinks=false;render();};
   } else {
     form.className=''; form.innerHTML='';
