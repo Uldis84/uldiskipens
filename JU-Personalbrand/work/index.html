@@ -397,17 +397,21 @@ async function searchWikipedia(query, lang){
 
 async function searchArchive(query){
   try{
-    const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}&fl[]=identifier&fl[]=title&fl[]=description&rows=4&output=json`;
+    const titleQuery = `title:(${query})`;
+    const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(titleQuery)}&fl[]=identifier&fl[]=title&fl[]=description&fl[]=mediatype&rows=6&output=json`;
     const r = await fetch(url);
     const d = await r.json();
     const docs = (d.response && d.response.docs) || [];
-    return docs.map(it=>({
-      type: 'archive',
-      title: it.title || it.identifier,
-      link: `https://archive.org/details/${it.identifier}`,
-      snippet: Array.isArray(it.description) ? it.description.join(' ') : (it.description||''),
-      ref: it.identifier
-    }));
+    return docs
+      .filter(it=>it.mediatype !== 'collection') // ganze Sammlungen ausblenden, nur einzelne Items zeigen
+      .slice(0,4)
+      .map(it=>({
+        type: 'archive',
+        title: it.title || it.identifier,
+        link: `https://archive.org/details/${it.identifier}`,
+        snippet: Array.isArray(it.description) ? it.description.join(' ') : (it.description||''),
+        ref: it.identifier
+      }));
   }catch(e){ return []; }
 }
 
