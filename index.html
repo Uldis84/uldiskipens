@@ -23,20 +23,19 @@
 <meta name="twitter:image" content="https://uldiskipens.com/og-image.png">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<link rel="preload" href="/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Uldis Kipens","jobTitle":"Video Editor","url":"https://uldiskipens.com/","sameAs":["https://www.instagram.com/editedbyuldis/"],"address":{"@type":"PostalAddress","addressLocality":"M\u00fcnster","addressCountry":"DE"}}</script>
 <style>
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin-400-normal.woff2) format("woff2");}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin-400-italic.woff2) format("woff2");}
-@font-face{font-family:"DM Sans";font-style:normal;font-weight:300;font-display:swap;src:url(/fonts/dm-sans-latin-300-normal.woff2) format("woff2");}
-@font-face{font-family:"DM Sans";font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-latin-400-normal.woff2) format("woff2");}
-@font-face{font-family:"DM Sans";font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/dm-sans-latin-500-normal.woff2) format("woff2");}
+@font-face{font-family:"Archivo";font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/archivo-latin-wght-normal.woff2) format("woff2");}
+@font-face{font-family:"Archivo";font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/archivo-latin-wght-italic.woff2) format("woff2");}
+@font-face{font-family:"Switzer";font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/Switzer-Variable.woff2) format("woff2"),url(/fonts/switzer-variable.woff2) format("woff2");}
+@font-face{font-family:"Switzer";font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/Switzer-VariableItalic.woff2) format("woff2"),url(/fonts/switzer-variableitalic.woff2) format("woff2");}
+
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --black:#0a0a0a;--white:#fff;--gray-100:#f5f5f5;--gray-200:#e8e8e8;
   --gray-400:#6e6e6e;--gray-600:#555;
-  --serif:"Instrument Serif",Georgia,serif;--sans:"DM Sans",sans-serif;
+  --serif:"Archivo","Switzer",system-ui,sans-serif;--sans:"Switzer","Archivo",system-ui,sans-serif;
   --max-w:1100px;--pr-bg:#1a1a1f;--accent:#e8440a;
 }
 html{scroll-behavior:smooth;}
@@ -68,9 +67,9 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:28px;animation:fadeUp .8s .2s both;}
 .hero-title{font-family:var(--serif);font-size:clamp(42px,5.8vw,80px);font-weight:400;line-height:1.06;letter-spacing:-.025em;color:var(--white);margin-bottom:24px;animation:fadeUp .9s .4s both;}
 .hero-title em{font-style:italic;color:rgba(255,255,255,.5);}
-.hero-sub{font-size:17px;font-weight:300;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:36px;animation:fadeUp .9s .6s both;}
+.hero-sub{font-size:17px;font-weight:400;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:36px;animation:fadeUp .9s .6s both;}
 .creators-row{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:44px;animation:fadeUp .9s .7s both;}
-.creators-namecheck{font-size:15px;font-weight:300;color:rgba(255,255,255,.62);letter-spacing:.01em;line-height:1.5;}
+.creators-namecheck{font-size:15px;font-weight:400;color:rgba(255,255,255,.62);letter-spacing:.01em;line-height:1.5;}
 .avatar-stack{position:relative;width:92px;height:62px;flex:none;}
 .avatar-img{position:absolute;top:0;left:0;width:52px;height:52px;border-radius:50%;object-fit:cover;cursor:pointer;
   border:2px solid rgba(255,255,255,.85);box-shadow:0 4px 14px rgba(0,0,0,.35);
@@ -82,8 +81,8 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .avatar-name{font-size:13px;font-weight:400;color:rgba(255,255,255,.55);letter-spacing:.02em;transition:opacity .35s ease;width:150px;display:inline-block;text-align:left;}
 .avatar-img{pointer-events:none;}
 .avatar-img.slot-0{pointer-events:auto;}
-.creators-namecheck strong{color:rgba(255,255,255,.88);font-weight:500;}
-.creators-namecheck .sub-count{font-size:13px;color:rgba(255,255,255,.62);font-weight:300;}
+.creators-namecheck strong{color:rgba(255,255,255,.88);font-weight:700;}
+.creators-namecheck .sub-count{font-size:13px;color:rgba(255,255,255,.62);font-weight:400;}
 .cta-row{display:flex;align-items:center;justify-content:center;gap:20px;animation:fadeUp .9s .85s both;}
 .btn-primary{display:inline-block;padding:13px 30px;background:var(--white);color:var(--black);border-radius:980px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;}
 .btn-primary:hover{transform:scale(1.03);opacity:.92;}
@@ -117,8 +116,8 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
 .about-h{font-family:var(--serif);font-size:clamp(32px,3.5vw,46px);font-weight:400;letter-spacing:-.02em;line-height:1.12;margin-bottom:24px;}
-.body-text{font-size:16px;line-height:1.75;color:var(--gray-600);font-weight:300;margin-bottom:28px;}
-.body-text strong{color:var(--black);font-weight:500;}
+.body-text{font-size:16px;line-height:1.75;color:var(--gray-600);font-weight:400;margin-bottom:28px;}
+.body-text strong{color:var(--black);font-weight:700;}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px;}
 .stat{padding:20px 16px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:12px;transition:background .2s;}
 .stat:hover{background:var(--gray-200);}
@@ -137,7 +136,7 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .shorts-tag{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.62);margin-bottom:16px;}
 .shorts-headline{font-family:var(--serif);font-size:clamp(34px,4.5vw,58px);font-weight:400;letter-spacing:-.025em;color:var(--white);line-height:1.06;margin-bottom:16px;}
 .shorts-headline em{font-style:italic;color:var(--accent);}
-.shorts-sub{font-size:15px;color:rgba(255,255,255,.62);font-weight:300;line-height:1.7;max-width:540px;}
+.shorts-sub{font-size:15px;color:rgba(255,255,255,.62);font-weight:400;line-height:1.7;max-width:540px;}
 .shorts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;align-items:start;}
 .short-card{display:flex;flex-direction:column;gap:0;}
 .short-video-outer{display:flex;justify-content:center;margin-bottom:26px;}
@@ -145,10 +144,10 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .short-video-wrap iframe{width:100%;height:100%;border:none;display:block;}
 .short-card-label{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:10px;}
 .short-card-title{font-family:var(--serif);font-size:clamp(20px,2vw,26px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:12px;letter-spacing:-.015em;}
-.short-card-desc{font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;font-weight:300;margin-bottom:20px;}
+.short-card-desc{font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;font-weight:400;margin-bottom:20px;}
 .short-note{padding:14px 18px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.025);}
 .short-note p{font-size:13px;color:rgba(255,255,255,.62);line-height:1.6;font-style:italic;}
-.short-note strong{color:rgba(255,255,255,.7);font-style:normal;font-weight:500;}
+.short-note strong{color:rgba(255,255,255,.7);font-style:normal;font-weight:700;}
 
 /* STORY SECTION */
 .story-section{background:#0a0a0f;padding-top:24px;padding-bottom:90px;}
@@ -158,20 +157,20 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .story-tag{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.62);margin-bottom:16px;}
 .story-headline{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:400;letter-spacing:-.025em;color:rgba(255,255,255,.75);line-height:1.08;margin-bottom:16px;}
 .story-headline em{font-style:italic;color:rgba(255,255,255,.62);}
-.story-sub{font-size:15px;color:rgba(255,255,255,.62);font-weight:300;line-height:1.7;max-width:540px;}
+.story-sub{font-size:15px;color:rgba(255,255,255,.62);font-weight:400;line-height:1.7;max-width:540px;}
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
 .story-card{display:flex;flex-direction:column;}
 .story-video-wrap{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);margin-bottom:26px;}
 .story-video-wrap iframe{width:100%;height:100%;border:none;display:block;}
 .story-card-label{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:10px;}
 .story-card-title{font-family:var(--serif);font-size:clamp(20px,2.2vw,28px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:12px;}
-.story-card-desc{font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;font-weight:300;margin-bottom:20px;}
+.story-card-desc{font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;font-weight:400;margin-bottom:20px;}
 .story-decisions{display:flex;flex-direction:column;gap:8px;}
 .story-decision{display:flex;align-items:flex-start;gap:12px;padding:11px 15px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:rgba(255,255,255,.02);transition:border-color .25s,background .25s;}
 .story-decision:hover{border-color:rgba(232,68,10,.25);background:rgba(232,68,10,.035);}
 .decision-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px;}
-.decision-text{font-size:13px;color:rgba(255,255,255,.5);line-height:1.55;font-weight:300;}
-.decision-text strong{color:rgba(255,255,255,.78);font-weight:500;}
+.decision-text{font-size:13px;color:rgba(255,255,255,.5);line-height:1.55;font-weight:400;}
+.decision-text strong{color:rgba(255,255,255,.78);font-weight:700;}
 
 /* RETENTION */
 .retention-section{background:#0a0a0f;padding-top:0;padding-bottom:90px;}
@@ -187,7 +186,7 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .metric-card:hover::before{opacity:1;}
 .metric-n{font-family:var(--serif);font-size:clamp(32px,4vw,50px);font-style:italic;color:var(--white);letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
 .metric-n span{color:var(--accent);}
-.metric-label{font-size:12px;color:rgba(255,255,255,.62);line-height:1.5;font-weight:300;}
+.metric-label{font-size:12px;color:rgba(255,255,255,.62);line-height:1.5;font-weight:400;}
 .retention-quote{margin-top:28px;padding:22px 26px;border-left:2px solid var(--accent);background:rgba(232,68,10,.04);border-radius:0 10px 10px 0;}
 .retention-quote p{font-family:var(--serif);font-size:16px;font-style:italic;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:12px;}
 .rq-author{display:flex;align-items:center;gap:10px;}
@@ -235,7 +234,7 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .book-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 .book-h{font-family:var(--serif);font-size:clamp(36px,4.5vw,58px);font-weight:400;letter-spacing:-.02em;line-height:1.08;margin-bottom:20px;}
 .book-h em{font-style:italic;color:var(--gray-600);}
-.book-desc{font-size:16px;color:var(--gray-600);line-height:1.7;font-weight:300;margin-bottom:12px;}
+.book-desc{font-size:16px;color:var(--gray-600);line-height:1.7;font-weight:400;margin-bottom:12px;}
 .book-direct{font-size:14px;color:var(--gray-400);margin-bottom:36px;}
 .book-direct a{color:var(--black);text-decoration:underline;text-underline-offset:3px;}
 .book-cta-box{background:linear-gradient(145deg,#2a2a2a 0%,#1a1a1a 50%,#222 100%);border-radius:20px;padding:48px 40px;text-align:center;position:relative;overflow:hidden;}
@@ -253,7 +252,7 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .book-perk{display:flex;align-items:flex-start;gap:16px;}
 .book-perk-icon{width:44px;height:44px;border-radius:12px;background:var(--gray-100);border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
 .book-perk-title{font-size:15px;font-weight:500;margin-bottom:4px;}
-.book-perk-text{font-size:14px;color:var(--gray-600);line-height:1.6;font-weight:300;}
+.book-perk-text{font-size:14px;color:var(--gray-600);line-height:1.6;font-weight:400;}
 
 /* IG + IMPRESSUM + FOOTER */
 .ig-strip{border-top:1px solid var(--gray-200);padding:48px 0;text-align:center;}
@@ -266,8 +265,8 @@ nav.scrolled .lang-btn.active{color:var(--black);border-color:var(--black);backg
 .ig-sub{font-size:12px;color:var(--gray-400);margin-top:-4px;}
 .impressum-sec{border-top:1px solid var(--gray-200);padding:64px 0;}
 .impressum-h{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--gray-400);margin-bottom:20px;}
-.impressum-body{font-size:14px;color:var(--gray-600);line-height:1.8;font-weight:300;}
-.impressum-body strong{color:var(--black);font-weight:500;}
+.impressum-body{font-size:14px;color:var(--gray-600);line-height:1.8;font-weight:400;}
+.impressum-body strong{color:var(--black);font-weight:700;}
 footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
 .foot-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;}
 .foot-text{font-size:13px;color:var(--gray-400);}
@@ -277,17 +276,17 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
 /* AGENCIES */
 .ag-h{font-family:var(--serif);font-size:clamp(32px,3.5vw,46px);font-weight:400;letter-spacing:-.02em;line-height:1.12;margin-bottom:20px;max-width:680px;}
 .ag-h em{font-style:italic;}
-.ag-intro{font-size:16px;line-height:1.75;color:var(--gray-600);font-weight:300;max-width:620px;margin-bottom:44px;}
+.ag-intro{font-size:16px;line-height:1.75;color:var(--gray-600);font-weight:400;max-width:620px;margin-bottom:44px;}
 .ag-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:48px;}
 .ag-card{padding:26px 24px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:14px;}
 .ag-card h3{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:-.01em;margin-bottom:8px;}
-.ag-card p{font-size:14.5px;line-height:1.65;color:var(--gray-600);font-weight:300;}
+.ag-card p{font-size:14.5px;line-height:1.65;color:var(--gray-600);font-weight:400;}
 .ag-steps-h{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--gray-400);margin-bottom:16px;}
 .ag-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px;}
 .ag-step{border-top:1px solid var(--gray-200);padding-top:16px;}
 .ag-step-n{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--accent);margin-bottom:4px;}
 .ag-step-t{font-size:15px;font-weight:500;margin-bottom:6px;}
-.ag-step p{font-size:14px;line-height:1.65;color:var(--gray-600);font-weight:300;}
+.ag-step p{font-size:14px;line-height:1.65;color:var(--gray-600);font-weight:400;}
 .ag-cta{display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
 .ag-btn{display:inline-block;padding:13px 30px;background:var(--black);color:var(--white);border-radius:980px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;}
 .ag-btn:hover{transform:scale(1.03);opacity:.9;}
@@ -320,6 +319,65 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
   .sec-fade{height:160px;}
   .short-video-wrap{width:200px;}
 }
+
+/* FONT SWAP: Archivo (Überschriften) + Switzer (Fließtext) */
+.nav-name{font-style:normal;font-weight:700;letter-spacing:-.02em;font-size:18px;}
+.hero-title,.about-h,.shorts-headline,.story-headline,.retention-headline,.bna-h,.reviews-h,.book-h,.ag-h{font-weight:700;letter-spacing:-.035em;}
+.short-card-title,.story-card-title,.book-cta-title,.ag-card h3{font-weight:600;letter-spacing:-.02em;}
+.hero-title{font-size:clamp(38px,5vw,70px);line-height:1.03;}
+.about-h,.reviews-h,.ag-h{font-size:clamp(30px,3.2vw,42px);line-height:1.1;}
+.shorts-headline{font-size:clamp(32px,4vw,52px);line-height:1.04;}
+.story-headline{font-size:clamp(30px,3.6vw,46px);line-height:1.06;}
+.retention-headline{font-size:clamp(22px,2.5vw,32px);line-height:1.2;}
+.bna-h{font-size:clamp(30px,3.6vw,44px);line-height:1.08;}
+.book-h{font-size:clamp(32px,4vw,52px);line-height:1.05;}
+.short-card-title,.story-card-title{font-size:clamp(19px,1.9vw,24px);}
+.book-cta-title{font-size:clamp(22px,2.6vw,30px);}
+.stat-n,.metric-n{font-style:normal;font-weight:800;letter-spacing:-.04em;}
+.review-quote,.retention-quote p{font-family:var(--sans);font-style:italic;font-weight:400;letter-spacing:0;}
+.ag-step-n{font-weight:700;}
+.embed-title{font-weight:600;}
+
+/* TYPE SYSTEM (Switzer): 800 Kernbegriffe, 700 Hervorhebungen, 600 Labels, 500 Kleintext, 400 Fließtext, Kursiv für Zwischenzeilen und Erklärungen */
+strong,b{font-weight:700;color:inherit;}
+strong.hl{font-weight:800;letter-spacing:-.005em;}
+.hero-sub,.shorts-sub,.story-sub,.bna-sub,.ag-intro{font-style:italic;font-weight:400;}
+.short-note p{font-style:italic;}
+.short-note p strong{font-style:normal;}
+.eyebrow,.section-tag,.shorts-tag,.short-card-label,.story-tag,.story-card-label,.retention-tag,.bna-tag,.book-cta-eyebrow{font-weight:600;}
+.stat-l,.metric-label,.ag-note{font-weight:500;}
+
+/* RETENTION PROOF */
+.rt-section{background:#0a0a0f;padding:90px 0 80px;position:relative;overflow:hidden;}
+.rt-section::before{content:"";position:absolute;top:-180px;left:-160px;width:620px;height:620px;background:radial-gradient(circle,rgba(232,68,10,.09) 0%,transparent 70%);pointer-events:none;}
+.rt-inner{max-width:var(--max-w);margin:0 auto;padding:0 48px;position:relative;}
+.rt-tag{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.62);font-weight:600;margin-bottom:16px;}
+.rt-h{font-family:var(--serif);font-size:clamp(30px,4vw,52px);font-weight:700;letter-spacing:-.035em;line-height:1.05;color:var(--white);margin-bottom:16px;}
+.rt-h em{font-style:italic;color:var(--accent);}
+.rt-sub{font-size:16px;line-height:1.7;font-style:italic;color:rgba(255,255,255,.7);max-width:620px;margin-bottom:34px;}
+.rt-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+.rt-kpi{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px 22px;}
+.rt-n{font-family:var(--serif);font-size:clamp(30px,3.6vw,46px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--white);margin-bottom:8px;}
+.rt-l{font-size:13px;line-height:1.45;color:rgba(255,255,255,.66);}
+.rt-chart{position:relative;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 10px 6px;margin-bottom:22px;}
+.rt-svgbox{width:100%;touch-action:pan-y;}
+.rt-svgbox svg{display:block;width:100%;overflow:visible;}
+.rt-line{filter:drop-shadow(0 0 7px rgba(232,68,10,.75)) drop-shadow(0 0 18px rgba(232,68,10,.4));}
+.rt-mk{cursor:pointer;outline:none;}
+.rt-mk .rt-dot{transition:r .2s;}
+.rt-mk.on .rt-dot,.rt-mk:focus .rt-dot{r:8;}
+.rt-mk text{font-family:var(--sans);font-size:12px;font-weight:700;fill:#fff;}
+.rt-ax{font-family:var(--sans);font-size:11px;fill:rgba(255,255,255,.5);}
+.rt-tip{position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-120%);background:#15151d;border:1px solid rgba(255,255,255,.2);color:#fff;font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;transition:opacity .15s;z-index:3;}
+.rt-tip b{font-weight:800;margin-right:6px;}
+.rt-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.rt-step{border-top:2px solid rgba(255,255,255,.14);padding-top:14px;transition:border-color .2s,background .2s;}
+.rt-step.on{border-top-color:var(--accent);}
+.rt-st{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:-.01em;color:var(--white);margin-bottom:6px;}
+.rt-step p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.72);}
+.rt-foot{font-size:12px;line-height:1.6;color:rgba(255,255,255,.5);max-width:780px;}
+@media(max-width:900px){.rt-steps{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:720px){.rt-inner{padding:0 20px;} .rt-kpis{grid-template-columns:1fr;} .rt-steps{grid-template-columns:1fr;} .rt-section{padding:64px 0 56px;}}
 </style>
 </head>
 <body>
@@ -349,7 +407,7 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
   <div class="hero-content">
     <p class="eyebrow" data-en="Video Editor &mdash; Storytelling Specialist" data-de="Video Editor &mdash; Storytelling Spezialist">Video Editor &mdash; Storytelling Specialist</p>
     <h1 class="hero-title" data-en="Edits that turn raw footage into stories <em>people actually finish watching.</em>" data-de="Edits, die aus rohem Material Geschichten machen, <em>die man einfach nicht wegklickt.</em>">Edits that turn raw footage into stories <em>people actually finish watching.</em></h1>
-    <p class="hero-sub" data-en="Long-form YouTube content built around structure, pacing, and keeping viewers hooked until the very end." data-de="Langformatiger YouTube-Content mit Struktur, Pacing und dem Willen, Zuschauer bis zum Schluss zu halten.">Long-form YouTube content built around structure, pacing, and keeping viewers hooked until the very end.</p>
+    <p class="hero-sub" data-en="Long-form YouTube content built around structure, pacing, and <strong class='hl'>keeping viewers hooked until the very end</strong>." data-de="Langformatiger YouTube-Content mit Struktur, Pacing und dem Willen, <strong class='hl'>Zuschauer bis zum Schluss zu halten</strong>.">Long-form YouTube content built around structure, pacing, and <strong class='hl'>keeping viewers hooked until the very end</strong>.</p>
     <div class="creators-row">
       <div class="avatar-stack" id="avatarStack" aria-hidden="true">
         <img class="avatar-img" data-name="ohnepixel" data-subs="4.5M" src="data:image/jpeg;base64,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" alt="">
@@ -401,7 +459,7 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
     <div class="shorts-header r">
       <p class="shorts-tag" data-en="Short-form &amp; Humour" data-de="Kurzformat &amp; Humor">Short-form &amp; Humour</p>
       <h2 class="shorts-headline" data-en="Not just documentary.<br>I get <em>internet humour.</em>" data-de="Nicht nur Dokumentation.<br>Ich verstehe <em>Internet-Humor.</em>">Not just documentary.<br>I get <em>internet humour.</em></h2>
-      <p class="shorts-sub" data-en="Good editing adapts to the format. These two shorts show I can match the energy, the timing, and the comedy style that drives engagement on gaming and creator channels." data-de="Gutes Editing passt sich dem Format an. Diese zwei Shorts zeigen, dass ich die Energie, das Timing und den Comedy-Stil treffen kann, der auf Gaming- und Creator-Kanälen funktioniert.">Good editing adapts to the format. These two shorts show I can match the energy, the timing, and the comedy style that drives engagement on gaming and creator channels.</p>
+      <p class="shorts-sub" data-en="Good editing adapts to the format. These two shorts show I can <strong class='hl'>match the energy, the timing, and the comedy style</strong> that drives engagement on gaming and creator channels." data-de="Gutes Editing passt sich dem Format an. Diese zwei Shorts zeigen, dass ich <strong class='hl'>die Energie, das Timing und den Comedy-Stil treffen</strong> kann, der auf Gaming- und Creator-Kanälen funktioniert.">Good editing adapts to the format. These two shorts show I can <strong class='hl'>match the energy, the timing, and the comedy style</strong> that drives engagement on gaming and creator channels.</p>
     </div>
     <div class="shorts-grid">
       <div class="short-card r d1">
@@ -453,13 +511,37 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
 </div>
 
 <!-- STORYTELLING LONG-FORM -->
+
+<div class="rt-section" id="retention-proof">
+  <div class="rt-inner">
+    <p class="rt-tag r" data-en="Retention &middot; Own Short" data-de="Retention &middot; Eigener Short">Retention &middot; Own Short</p>
+    <h2 class="rt-h r" data-en="A channel with 150 subscribers.<br><em>400k views. 82% stayed to watch.</em>" data-de="Ein Kanal mit 150 Abos.<br><em>400k Views. 82&nbsp;% sind drangeblieben.</em>">A channel with 150 subscribers.<br><em>400k views. 82% stayed to watch.</em></h2>
+    <p class="rt-sub r" data-en="A 34-second Short on my own channel. On Shorts it comes down to who swipes away, so this curve is the number I care about most." data-de="Ein 34-Sekunden-Short auf meinem eigenen Kanal. Bei Shorts kommt es darauf an, wer wegwischt, deshalb ist diese Kurve die Zahl, die mir am wichtigsten ist.">A 34-second Short on my own channel. On Shorts it comes down to who swipes away, so this curve is the number I care about most.</p>
+    <div class="rt-kpis r d1">
+      <div class="rt-kpi"><div class="rt-n">82.3%</div><div class="rt-l" data-en="stayed to watch" data-de="blieben dran">stayed to watch</div></div>
+      <div class="rt-kpi"><div class="rt-n">0:27</div><div class="rt-l" data-en="average view duration, of 0:34" data-de="durchschnittliche Wiedergabedauer, von 0:34">average view duration, of 0:34</div></div>
+      <div class="rt-kpi"><div class="rt-n">~400k</div><div class="rt-l" data-en="views on a channel with about 150 subscribers" data-de="Views auf einem Kanal mit etwa 150 Abos">views on a channel with about 150 subscribers</div></div>
+    </div>
+    <div class="rt-chart r d2" id="rt-chart" role="img" aria-label="Audience retention curve of the Short: starts at 153 percent, 122 percent after two seconds, slow decline to 56 percent at the end">
+      <div class="rt-svgbox"></div>
+      <div class="rt-tip" id="rt-tip"></div>
+    </div>
+    <div class="rt-steps" id="rt-steps">
+      <div class="rt-step" data-i="0"><div class="rt-st">0:00 &middot; 153%</div><p data-en="The curve starts above 100% because viewers watch it again. The hook is on screen from the first frame: text, post and reaction." data-de="Die Kurve startet über 100&nbsp;%, weil Zuschauer sich das Video noch einmal ansehen. Der Hook steht ab dem ersten Bild: Text, Beitrag und Reaktion.">The curve starts above 100% because viewers watch it again. The hook is on screen from the first frame: text, post and reaction.</p></div>
+      <div class="rt-step" data-i="1"><div class="rt-st">0:02 &middot; 122%</div><p data-en="Still 122% after two seconds. No slow intro, so almost nobody swipes away at the start." data-de="Nach zwei Sekunden sind es noch 122&nbsp;%. Kein langsamer Einstieg, deshalb wischt zu Beginn kaum jemand weg.">Still 122% after two seconds. No slow intro, so almost nobody swipes away at the start.</p></div>
+      <div class="rt-step" data-i="2"><div class="rt-st" data-en="0:07 &middot; small dip" data-de="0:07 &middot; kleiner Knick">0:07 &middot; small dip</div><p data-en="My read: the first reveal has landed, so some viewers leave. The curve stays steady afterwards." data-de="Meine Deutung: Der erste Reveal ist durch, deshalb gehen einige. Danach bleibt die Kurve stabil.">My read: the first reveal has landed, so some viewers leave. The curve stays steady afterwards.</p></div>
+      <div class="rt-step" data-i="3"><div class="rt-st">0:34 &middot; 56%</div><p data-en="No cliff, just a slow decline. At the last second, 56% are still watching." data-de="Kein Absturz, nur ein langsames Abflachen. In der letzten Sekunde sehen noch 56&nbsp;% zu.">No cliff, just a slow decline. At the last second, 56% are still watching.</p></div>
+    </div>
+    <p class="rt-foot" data-en="Own channel with under 200 subscribers at upload. Footage and format in the style of a big gaming creator. Source: YouTube Studio, audience retention (lifetime), as of 27 Oct 2026. Values between the marked points are approximate." data-de="Eigener Kanal mit unter 200 Abos zum Upload. Material und Format im Stil eines großen Gaming-Creators. Quelle: YouTube Studio, Zuschauerbindung (gesamt), Stand 27.10.2026. Werte zwischen den markierten Punkten sind angenähert.">Own channel with under 200 subscribers at upload. Footage and format in the style of a big gaming creator. Source: YouTube Studio, audience retention (lifetime), as of 27 Oct 2026. Values between the marked points are approximate.</p>
+  </div>
+</div>
 <div class="story-section" id="work">
   <div class="story-inner">
     <div class="story-divider"></div>
     <div class="story-header r">
       <p class="story-tag" data-en="Long-form Work" data-de="Langformat Arbeiten">Long-form Work</p>
       <h2 class="story-headline" data-en="When the story <em>needs room to breathe.</em>" data-de="Wenn die Geschichte <em>Raum zum Atmen braucht.</em>">When the story <em>needs room to breathe.</em></h2>
-      <p class="story-sub" data-en="Two long-form projects where every cut was a decision, not a default." data-de="Zwei Langformat-Projekte, bei denen jeder Schnitt eine Entscheidung war, kein Zufall.">Two long-form projects where every cut was a decision, not a default.</p>
+      <p class="story-sub" data-en="Two long-form projects where <strong class='hl'>every cut was a decision</strong>, not a default." data-de="Zwei Langformat-Projekte, bei denen <strong class='hl'>jeder Schnitt eine Entscheidung war</strong>, kein Zufall.">Two long-form projects where <strong class='hl'>every cut was a decision</strong>, not a default.</p>
     </div>
     <div class="story-grid">
       <div class="story-card r d1">
@@ -563,24 +645,24 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
 <div class="container section-pad" id="agencies">
   <p class="section-tag r" data-en="For Agencies" data-de="F&uuml;r Agenturen">For Agencies</p>
   <h2 class="ag-h r" data-en="Extra editing capacity for your <em>Reels &amp; Shorts.</em>" data-de="Zus&auml;tzliche Schnitt-Kapazit&auml;t f&uuml;r deine <em>Reels &amp; Shorts.</em>">Extra editing capacity for your <em>Reels &amp; Shorts.</em></h2>
-  <p class="ag-intro r" data-en="Too many clips, not enough editors? I take on short-form edits for agencies at a fixed price per reel. You send the footage and your style guide, I deliver on a fixed schedule." data-de="Mehr Clips als Editoren? Ich &uuml;bernehme Short-Form-Schnitt f&uuml;r Agenturen zum Festpreis pro Reel. Du schickst Material und Styleguide, ich liefere zum festen Termin.">Too many clips, not enough editors? I take on short-form edits for agencies at a fixed price per reel. You send the footage and your style guide, I deliver on a fixed schedule.</p>
+  <p class="ag-intro r" data-en="Too many clips, not enough editors? I take on short-form edits for agencies at a <strong class='hl'>fixed price per reel</strong>. You send the footage and your style guide, I deliver on a <strong>fixed schedule</strong>." data-de="Mehr Clips als Editoren? Ich &uuml;bernehme Short-Form-Schnitt f&uuml;r Agenturen zum <strong class='hl'>Festpreis pro Reel</strong>. Du schickst Material und Styleguide, ich liefere zum <strong>festen Termin</strong>.">Too many clips, not enough editors? I take on short-form edits for agencies at a <strong class='hl'>fixed price per reel</strong>. You send the footage and your style guide, I deliver on a <strong>fixed schedule</strong>.</p>
 
   <div class="ag-grid">
     <div class="ag-card r">
       <h3 data-en="Built to hold attention" data-de="Gebaut f&uuml;r Aufmerksamkeit">Built to hold attention</h3>
-      <p data-en="A strong hook in the first seconds, captions timed to the speech rhythm, and sound design that supports the cut. The same approach as in the short-form samples above." data-de="Ein starker Hook in den ersten Sekunden, Untertitel im Sprachrhythmus und Sounddesign, das den Schnitt tr&auml;gt. Derselbe Ansatz wie in den Short-Form-Beispielen oben.">A strong hook in the first seconds, captions timed to the speech rhythm, and sound design that supports the cut. The same approach as in the short-form samples above.</p>
+      <p data-en="<strong class='hl'>A strong hook in the first seconds</strong>, captions timed to the speech rhythm, and sound design that supports the cut. The same approach as in the short-form samples above." data-de="<strong class='hl'>Ein starker Hook in den ersten Sekunden</strong>, Untertitel im Sprachrhythmus und Sounddesign, das den Schnitt tr&auml;gt. Derselbe Ansatz wie in den Short-Form-Beispielen oben."><strong class='hl'>A strong hook in the first seconds</strong>, captions timed to the speech rhythm, and sound design that supports the cut. The same approach as in the short-form samples above.</p>
     </div>
     <div class="ag-card r">
       <h3 data-en="Fixed price per reel" data-de="Festpreis pro Reel">Fixed price per reel</h3>
-      <p data-en="One flat price per reel, with volume pricing from 8 reels per week. Send me your format and I'll quote it." data-de="Ein fester Preis pro Reel, Staffelpreis ab 8 Reels pro Woche. Schick mir dein Format, ich nenne dir den Preis.">One flat price per reel, with volume pricing from 8 reels per week. Send me your format and I'll quote it.</p>
+      <p data-en="<strong class='hl'>One flat price per reel</strong>, with <strong>volume pricing from 8 reels per week</strong>. Send me your format and I'll quote it." data-de="<strong class='hl'>Ein fester Preis pro Reel</strong>, <strong>Staffelpreis ab 8 Reels pro Woche</strong>. Schick mir dein Format, ich nenne dir den Preis."><strong class='hl'>One flat price per reel</strong>, with <strong>volume pricing from 8 reels per week</strong>. Send me your format and I'll quote it.</p>
     </div>
     <div class="ag-card r">
       <h3 data-en="Reliable delivery" data-de="Verl&auml;ssliche Lieferung">Reliable delivery</h3>
-      <p data-en="72 hours as standard, 48 hours as rush (+20%). Before every handover I check audio, captions and b-roll against your brief." data-de="Standard 72 Stunden, auf Wunsch 48 Stunden (+20&nbsp;%). Vor jeder &Uuml;bergabe pr&uuml;fe ich Ton, Untertitel und B-Roll gegen dein Briefing.">72 hours as standard, 48 hours as rush (+20%). Before every handover I check audio, captions and b-roll against your brief.</p>
+      <p data-en="<strong class='hl'>72 hours as standard</strong>, <strong>48 hours as rush (+20%)</strong>. Before every handover I check audio, captions and b-roll against your brief." data-de="<strong class='hl'>Standard 72 Stunden</strong>, <strong>auf Wunsch 48 Stunden (+20&nbsp;%)</strong>. Vor jeder &Uuml;bergabe pr&uuml;fe ich Ton, Untertitel und B-Roll gegen dein Briefing."><strong class='hl'>72 hours as standard</strong>, <strong>48 hours as rush (+20%)</strong>. Before every handover I check audio, captions and b-roll against your brief.</p>
     </div>
     <div class="ag-card r">
       <h3 data-en="Clean handover" data-de="Saubere &Uuml;bergabe">Clean handover</h3>
-      <p data-en="Exports in the right platform format, two revision rounds included. Project files are available on request for an extra fee." data-de="Export im passenden Plattformformat, zwei Korrekturrunden inklusive. Projektdateien auf Anfrage gegen Aufpreis.">Exports in the right platform format, two revision rounds included. Project files are available on request for an extra fee.</p>
+      <p data-en="Exports in the right platform format, <strong class='hl'>two revision rounds included</strong>. Project files are available on request for an extra fee." data-de="Export im passenden Plattformformat, <strong class='hl'>zwei Korrekturrunden inklusive</strong>. Projektdateien auf Anfrage gegen Aufpreis.">Exports in the right platform format, <strong class='hl'>two revision rounds included</strong>. Project files are available on request for an extra fee.</p>
     </div>
   </div>
 
@@ -599,7 +681,7 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
     <div class="ag-step r">
       <div class="ag-step-n">3</div>
       <div class="ag-step-t" data-en="Weekly rhythm" data-de="Fester Wochenrhythmus">Weekly rhythm</div>
-      <p data-en="If it fits, we settle into a fixed weekly batch. I plan 4 to 6 reels per week so deadlines stay reliable." data-de="Wenn es passt, arbeiten wir in einem festen Wochen-Batch. Ich plane 4 bis 6 Reels pro Woche, damit Termine halten.">If it fits, we settle into a fixed weekly batch. I plan 4 to 6 reels per week so deadlines stay reliable.</p>
+      <p data-en="If it fits, we settle into a fixed weekly batch. I plan <strong class='hl'>4 to 6 reels per week</strong> so deadlines stay reliable." data-de="Wenn es passt, arbeiten wir in einem festen Wochen-Batch. Ich plane <strong class='hl'>4 bis 6 Reels pro Woche</strong>, damit Termine halten.">If it fits, we settle into a fixed weekly batch. I plan <strong class='hl'>4 to 6 reels per week</strong> so deadlines stay reliable.</p>
     </div>
   </div>
 
@@ -614,13 +696,13 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
 
 <!-- FAQ -->
 <div class="container section-pad" id="faq">
-  <h2 class="r" style="font-family:var(--serif);font-size:clamp(32px,3.5vw,46px);font-weight:400;letter-spacing:-.02em;margin-bottom:10px;" data-en="Frequently asked." data-de="Häufige Fragen.">Frequently asked.</h2>
+  <h2 class="r" style="font-family:var(--serif);font-size:clamp(30px,3.2vw,42px);font-weight:700;letter-spacing:-.035em;margin-bottom:10px;" data-en="Frequently asked." data-de="Häufige Fragen.">Frequently asked.</h2>
   <p class="r" style="font-size:14px;color:var(--gray-400);margin-bottom:52px;" data-en="Everything worth knowing before we work together." data-de="Alles Wissenswerte, bevor wir zusammenarbeiten.">Everything worth knowing before we work together.</p>
   <div style="max-width:700px;">
-    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="What type of content do you specialise in?" data-de="Auf welchen Content bist du spezialisiert?">What type of content do you specialise in?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="Mainly long-form YouTube: food, travel, lifestyle. But as you can see with the shorts, I can adapt to fast-paced humorous content too. Whatever the format, I approach it the same way: make it hold attention." data-de="Hauptsächlich langformateriger YouTube-Content: Food, Reisen, Lifestyle. Aber wie die Shorts zeigen, kann ich mich auch an schnelle, humorvolle Formate anpassen. Egal das Format, mein Ansatz ist derselbe: Aufmerksamkeit halten.">Mainly long-form YouTube: food, travel, lifestyle. But as you can see with the shorts, I can adapt to fast-paced humorous content too. Whatever the format, I approach it the same way: make it hold attention.</div></div>
-    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="What's your turnaround time?" data-de="Wie schnell lieferst du?">What's your turnaround time?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="For a typical 10 to 20 minute YouTube video: first cut within 5 to 7 days. Rush delivery is possible, just reach out and we'll figure it out." data-de="Für ein typisches 10-20 Minuten YouTube-Video: Erstschnitt in 5 bis 7 Tagen. Eillieferung ist möglich, meld dich einfach und wir finden einen Weg.">For a typical 10 to 20 minute YouTube video: first cut within 5 to 7 days. Rush delivery is possible, just reach out and we'll figure it out.</div></div>
-    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="Which software do you use?" data-de="Welche Software nutzt du?">Which software do you use?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="Adobe Premiere Pro for editing, After Effects for motion graphics. I deliver in any format, optimised for YouTube or raw ProRes." data-de="Adobe Premiere Pro für den Schnitt, After Effects für Motion Graphics. Lieferung in jedem Format, optimiert für YouTube oder als rohe ProRes-Datei.">Adobe Premiere Pro for editing, After Effects for motion graphics. I deliver in any format, optimised for YouTube or raw ProRes.</div></div>
-    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="How many revisions are included?" data-de="Wie viele Revisionen sind inklusive?">How many revisions are included?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="2 rounds of revisions as standard. Anything extra is a minor additional cost." data-de="2 Revisions-Runden als Standard. Alles darüber hinaus kostet einen kleinen Aufpreis.">2 rounds of revisions as standard. Anything extra is a minor additional cost.</div></div>
+    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="What type of content do you specialise in?" data-de="Auf welchen Content bist du spezialisiert?">What type of content do you specialise in?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="Mainly long-form YouTube: food, travel, lifestyle. But as you can see with the shorts, I can adapt to fast-paced humorous content too. Whatever the format, I approach it the same way: <strong class='hl'>make it hold attention</strong>." data-de="Hauptsächlich langformateriger YouTube-Content: Food, Reisen, Lifestyle. Aber wie die Shorts zeigen, kann ich mich auch an schnelle, humorvolle Formate anpassen. Egal das Format, mein Ansatz ist derselbe: <strong class='hl'>Aufmerksamkeit halten</strong>.">Mainly long-form YouTube: food, travel, lifestyle. But as you can see with the shorts, I can adapt to fast-paced humorous content too. Whatever the format, I approach it the same way: <strong class='hl'>make it hold attention</strong>.</div></div>
+    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="What's your turnaround time?" data-de="Wie schnell lieferst du?">What's your turnaround time?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="For a typical 10 to 20 minute YouTube video: <strong class='hl'>first cut within 5 to 7 days</strong>. Rush delivery is possible, just reach out and we'll figure it out." data-de="Für ein typisches 10-20 Minuten YouTube-Video: <strong class='hl'>Erstschnitt in 5 bis 7 Tagen</strong>. Eillieferung ist möglich, meld dich einfach und wir finden einen Weg.">For a typical 10 to 20 minute YouTube video: <strong class='hl'>first cut within 5 to 7 days</strong>. Rush delivery is possible, just reach out and we'll figure it out.</div></div>
+    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="Which software do you use?" data-de="Welche Software nutzt du?">Which software do you use?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="<strong>Adobe Premiere Pro</strong> for editing, <strong>After Effects</strong> for motion graphics. I deliver in any format, optimised for YouTube or raw ProRes." data-de="<strong>Adobe Premiere Pro</strong> für den Schnitt, <strong>After Effects</strong> für Motion Graphics. Lieferung in jedem Format, optimiert für YouTube oder als rohe ProRes-Datei."><strong>Adobe Premiere Pro</strong> for editing, <strong>After Effects</strong> for motion graphics. I deliver in any format, optimised for YouTube or raw ProRes.</div></div>
+    <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="How many revisions are included?" data-de="Wie viele Revisionen sind inklusive?">How many revisions are included?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="<strong class='hl'>2 rounds of revisions</strong> as standard. Anything extra is a minor additional cost." data-de="<strong class='hl'>2 Revisions-Runden</strong> als Standard. Alles darüber hinaus kostet einen kleinen Aufpreis."><strong class='hl'>2 rounds of revisions</strong> as standard. Anything extra is a minor additional cost.</div></div>
     <div class="faq-row r" onclick="toggleFaq(this)" style="border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);padding:24px 0;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:400;user-select:none;gap:20px;"><span data-en="What do you need from me to get started?" data-de="Was brauchst du von mir für den Start?">What do you need from me to get started?</span><span class="faq-plus" style="width:26px;height:26px;border-radius:50%;border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:var(--gray-400);transition:all .25s;">+</span></div><div class="faq-ans" style="font-size:15px;color:var(--gray-600);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;" data-en="Raw footage, reference videos, a rough outline of the story, and your music preferences. That's it. I'll handle the rest." data-de="Rohes Filmmaterial, Referenzvideos, eine grobe Storyübersicht und deine Musikpräferenzen. Das war's. Den Rest erledige ich.">Raw footage, reference videos, a rough outline of the story, and your music preferences. That's it. I'll handle the rest.</div></div>
   </div>
 </div>
@@ -633,7 +715,7 @@ footer{border-top:1px solid var(--gray-200);padding:22px 48px;}
     <div class="r">
       <p class="section-tag" data-en="Get in touch" data-de="Meld dich">Get in touch</p>
       <h2 class="book-h" data-en="Ready to grow<br><em>your channel?</em>" data-de="Bereit, deinen<br><em>Kanal wachsen</em> zu lassen?">Ready to grow<br><em>your channel?</em></h2>
-      <p class="book-desc" data-en="Book a free 15-minute call. We'll talk through your content, your goals, and whether we're a good fit." data-de="Buch einen kostenlosen 15-Minuten-Call. Wir reden über deinen Content, deine Ziele und ob wir zusammenpassen.">Book a free 15-minute call. We'll talk through your content, your goals, and whether we're a good fit.</p>
+      <p class="book-desc" data-en="Book a <strong class='hl'>free 15-minute call</strong>. We'll talk through your content, your goals, and whether we're a good fit." data-de="Buch einen <strong class='hl'>kostenlosen 15-Minuten-Call</strong>. Wir reden über deinen Content, deine Ziele und ob wir zusammenpassen.">Book a <strong class='hl'>free 15-minute call</strong>. We'll talk through your content, your goals, and whether we're a good fit.</p>
       <p class="book-direct" data-en="Prefer email? <a href='mailto:uldis.kipens@gmail.com'>uldis.kipens@gmail.com</a>" data-de="Lieber per E-Mail? <a href='mailto:uldis.kipens@gmail.com'>uldis.kipens@gmail.com</a>">Prefer email? <a href="mailto:uldis.kipens@gmail.com">uldis.kipens@gmail.com</a></p>
       <div class="book-perks">
         <div class="book-perk"><div class="book-perk-icon">&#127757;</div><div><div class="book-perk-title" data-en="No commitment" data-de="Kein Commitment">No commitment</div><div class="book-perk-text" data-en="Just a chill call to see if we click. Zero pressure." data-de="Einfach ein entspanntes Gespräch, ob wir zusammenpassen. Kein Druck.">Just a chill call to see if we click. Zero pressure.</div></div></div>
@@ -884,6 +966,59 @@ document.querySelectorAll("iframe[data-src]").forEach(function(f){
     box.remove();
   });
 });
+</script>
+
+<script>
+(function(){
+  var DATA=[[0,153],[.5,143],[1,133],[1.5,126],[2,122],[3,118],[4,114],[5,110],[6,107],[7,104],[7.6,100],[8,95],[9,92],[10,89],[11,86],[12,83],[13,80],[14,78],[15,76],[16,74],[17,72],[19,69],[21,66],[23,64],[25,62],[27,60],[29,58],[31,57],[33,56],[34,56]];
+  var MARKS=[{t:0,l:'153%'},{t:2,l:'122%'},{t:7.6,l:'0:07'},{t:34,l:'56%'}];
+  var DUR=34, box=document.querySelector('#rt-chart .rt-svgbox'), tip=document.getElementById('rt-tip'), steps=document.querySelectorAll('#rt-steps .rt-step');
+  if(!box) return;
+  var played=false, reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function val(t){ for(var i=1;i<DATA.length;i++){ if(t<=DATA[i][0]){ var a=DATA[i-1],b=DATA[i]; return a[1]+(b[1]-a[1])*((t-a[0])/(b[0]-a[0]||1)); } } return DATA[DATA.length-1][1]; }
+  function fmt(t){ var s=Math.floor(t+.0001); return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2); }
+  function smooth(p){ var d='M'+p[0][0].toFixed(1)+' '+p[0][1].toFixed(1); for(var i=0;i<p.length-1;i++){ var p0=p[i-1]||p[i],p1=p[i],p2=p[i+1],p3=p[i+2]||p2;
+    d+=' C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+','+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+','+p2[0].toFixed(1)+' '+p2[1].toFixed(1); } return d; }
+  var g={};
+  function build(){
+    var w=Math.max(280,box.clientWidth), h=Math.max(250,Math.round(w*(w<560?.78:.4)));
+    var L=40,R=14,T=16,B=28, X=function(t){return L+(w-L-R)*t/DUR;}, Y=function(v){return h-B-(h-T-B)*v/180;};
+    g={w:w,h:h,L:L,R:R,T:T,B:B,X:X,Y:Y};
+    var pts=DATA.map(function(d){return [X(d[0]),Y(d[1])];}), line=smooth(pts), area=line+' L'+X(DUR).toFixed(1)+' '+Y(0).toFixed(1)+' L'+X(0).toFixed(1)+' '+Y(0).toFixed(1)+' Z';
+    var grid='';
+    [0,60,120,180].forEach(function(v){ grid+='<line x1="'+L+'" x2="'+(w-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="rgba(255,255,255,.1)"/><text class="rt-ax" x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+v+'%</text>'; });
+    grid+='<line x1="'+L+'" x2="'+(w-R)+'" y1="'+Y(100)+'" y2="'+Y(100)+'" stroke="rgba(255,255,255,.32)" stroke-dasharray="4 5"/>';
+    [0,10,20,34].forEach(function(t){ grid+='<text class="rt-ax" x="'+X(t)+'" y="'+(h-8)+'" text-anchor="'+(t===0?'start':(t===34?'end':'middle'))+'">'+fmt(t)+'</text>'; });
+    var mk=MARKS.map(function(m,i){ var x=X(m.t), y=Y(val(m.t)), up=(i===3||i===2)?-16:-14, anch=i===0?'start':(i===3?'end':'middle'), tx=i===0?x+4:(i===3?x-2:x);
+      return '<g class="rt-mk" data-i="'+i+'" tabindex="0" style="opacity:'+(played||reduce?1:0)+'"><circle class="rt-dot" cx="'+x+'" cy="'+y+'" r="5.5" fill="#e8440a" stroke="#fff" stroke-width="2"/><text x="'+tx+'" y="'+(y+up)+'" text-anchor="'+anch+'">'+m.l+'</text><rect x="'+(x-16)+'" y="'+(y-16)+'" width="32" height="32" fill="transparent"/></g>'; }).join('');
+    box.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" width="'+w+'" height="'+h+'"><defs><linearGradient id="rtg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8440a" stop-opacity=".38"/><stop offset="1" stop-color="#e8440a" stop-opacity="0"/></linearGradient><clipPath id="rtc"><rect id="rtcr" x="'+L+'" y="0" width="'+((played||reduce)?(w-L-R):0)+'" height="'+h+'"/></clipPath></defs>'
+      +grid+'<path d="'+area+'" fill="url(#rtg)" clip-path="url(#rtc)"/><path id="rtl" class="rt-line" d="'+line+'" fill="none" stroke="#e8440a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>'
+      +'<line id="rth" x1="0" x2="0" y1="'+T+'" y2="'+(h-B)+'" stroke="rgba(255,255,255,.5)" opacity="0"/><circle id="rtd" r="5" fill="#fff" opacity="0"/>'+mk+'<rect id="rto" x="'+L+'" y="'+T+'" width="'+(w-L-R)+'" height="'+(h-T-B)+'" fill="transparent"/></svg>';
+    var path=document.getElementById('rtl'), len=path.getTotalLength();
+    path.style.strokeDasharray=len; path.style.strokeDashoffset=(played||reduce)?0:len; g.len=len;
+    wire();
+  }
+  function on(i,flag){ steps.forEach(function(s){ s.classList.toggle('on',flag&&+s.dataset.i===i); }); var m=box.querySelectorAll('.rt-mk'); for(var k=0;k<m.length;k++){ m[k].classList.toggle('on',flag&&+m[k].dataset.i===i); } }
+  function wire(){
+    var ov=document.getElementById('rto'), hl=document.getElementById('rth'), dot=document.getElementById('rtd');
+    function move(e){ var r=ov.getBoundingClientRect(); var cx=(e.touches?e.touches[0].clientX:e.clientX); var t=Math.max(0,Math.min(DUR,(cx-r.left)/r.width*DUR)); var v=val(t), x=g.X(t), y=g.Y(v);
+      hl.setAttribute('x1',x); hl.setAttribute('x2',x); hl.setAttribute('opacity',1); dot.setAttribute('cx',x); dot.setAttribute('cy',y); dot.setAttribute('opacity',1);
+      var cr=box.parentNode.getBoundingClientRect(), br=box.getBoundingClientRect();
+      tip.innerHTML='<b>'+fmt(t)+'</b>&asymp;'+Math.round(v)+'%'; tip.style.left=(br.left-cr.left+x)+'px'; tip.style.top=(br.top-cr.top+y)+'px'; tip.style.opacity=1; }
+    function leave(){ hl.setAttribute('opacity',0); dot.setAttribute('opacity',0); tip.style.opacity=0; }
+    ov.addEventListener('pointermove',move); ov.addEventListener('pointerleave',leave); ov.addEventListener('touchmove',move,{passive:true}); ov.addEventListener('touchend',leave);
+    box.querySelectorAll('.rt-mk').forEach(function(m){ var i=+m.dataset.i; ['mouseenter','focus'].forEach(function(ev){m.addEventListener(ev,function(){on(i,true);});}); ['mouseleave','blur'].forEach(function(ev){m.addEventListener(ev,function(){on(i,false);});}); m.addEventListener('click',function(){on(i,true);}); });
+  }
+  steps.forEach(function(s){ var i=+s.dataset.i; s.addEventListener('mouseenter',function(){on(i,true);}); s.addEventListener('mouseleave',function(){on(i,false);}); });
+  function play(){ if(played) return; played=true; var path=document.getElementById('rtl'), cr=document.getElementById('rtcr'); var dur=2.6;
+    if(reduce){ build(); return; }
+    path.style.transition='stroke-dashoffset '+dur+'s cubic-bezier(.4,0,.2,1)'; cr.style.transition='width '+dur+'s cubic-bezier(.4,0,.2,1)';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ path.style.strokeDashoffset=0; cr.setAttribute('width',g.w-g.L-g.R); cr.style.width=(g.w-g.L-g.R)+'px'; }); });
+    box.querySelectorAll('.rt-mk').forEach(function(m,i){ m.style.transition='opacity .5s'; setTimeout(function(){ m.style.opacity=1; }, 250+MARKS[i].t/DUR*dur*1000); }); }
+  build();
+  if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ play(); io.disconnect(); } }); },{threshold:.35}); io.observe(document.getElementById('rt-chart')); } else { played=true; build(); }
+  var rz; window.addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(build,150); });
+})();
 </script>
 </body>
 </html>
